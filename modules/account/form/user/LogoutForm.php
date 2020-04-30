@@ -9,8 +9,7 @@
 namespace account\form\user;
 
 use account\form\Model;
-use app\models\redis\AccessToken;
-use account\models\User;
+use app\models\User;
 use Yii;
 use yii\web\HttpException;
 
@@ -68,8 +67,7 @@ class LogoutForm extends Model
         $logoutForm = new LogoutForm();
         $logoutForm->setScenario('logout');
         if ($logoutForm->load([$logoutForm->formName() => $param]) && $logoutForm->validate()) {
-            // 删除 AccessToken
-            AccessToken::removeAccessToken(User::getAccessToken());
+            User::logout();
             throw new HttpException(200, Yii::t('app/success', 'logout successfully'));
         } else {
             throw new HttpException(422, $logoutForm->getFirstError());

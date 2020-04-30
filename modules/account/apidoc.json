@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "apidoc -i application/  -o doc/  -t template/",
   "title": "接口文档",
-  "url": "http://api.t.sayingdata.com",
-  "sampleUrl": "http://api.t.sayingdata.com",
+  "url": "http://api.t.com",
+  "sampleUrl": "http://api.t.com",
   "template": {
     "withCompare": true,
     "withGenerator": true

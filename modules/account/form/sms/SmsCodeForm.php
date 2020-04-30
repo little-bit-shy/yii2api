@@ -96,8 +96,7 @@ class SmsCodeForm extends Model
         $logoutForm->setScenario('send');
         if ($logoutForm->load([$logoutForm->formName() => $param]) && $logoutForm->validate()) {
             $attributes = $logoutForm->getAttributes();
-            $smsCode = SmsCode::createSmsCode($attributes['mobile']);
-            // TODO: 实际发送验证码暂未接入
+            SmsCode::createSmsCode($attributes['mobile']);
             throw new HttpException(200, Yii::t('app/success', 'sms send successfully'));
         } else {
             throw new HttpException(422, $logoutForm->getFirstError());

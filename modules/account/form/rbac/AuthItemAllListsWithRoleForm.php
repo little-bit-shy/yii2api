@@ -8,12 +8,8 @@
 
 namespace account\form\rbac;
 
-use account\models\ActiveRecord;
 use account\form\Model;
-use account\models\rbac\AuthItem;
-use account\models\rbac\AuthItemChild;
 use Yii;
-use yii\caching\TagDependency;
 use yii\web\HttpException;
 
 /**
@@ -90,9 +86,7 @@ class AuthItemAllListsWithRoleForm extends Model
             $attributes = $actionAllListsWithRole->getAttributes();
             // 获取数据
             $auth = Yii::$app->getAuthManager();
-            $dataProvider = $auth->getPermissionsByRole($attributes['name']);
-
-            return $dataProvider;
+            return $auth->getPermissionsByRole($attributes['name']);
         } else {
             // 数据不合法
             throw new HttpException(422, $actionAllListsWithRole->getFirstError());

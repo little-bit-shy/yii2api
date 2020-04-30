@@ -9,10 +9,8 @@
 
 namespace account\redis;
 
-use app\components\ArrayHelper;
-use app\components\EasySms;
-use app\components\Helper;
 use app\components\StringHelper;
+use app\extensions\EasySms;
 use Yii;
 use yii\web\HttpException;
 

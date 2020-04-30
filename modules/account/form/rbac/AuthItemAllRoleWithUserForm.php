@@ -8,12 +8,8 @@
 
 namespace account\form\rbac;
 
-use account\models\ActiveRecord;
 use account\form\Model;
-use account\models\rbac\AuthAssignment;
-use account\models\User;
 use Yii;
-use yii\caching\TagDependency;
 use yii\web\HttpException;
 
 /**
@@ -89,10 +85,7 @@ class AuthItemAllRoleWithUserForm extends Model
             $attributes = $authItemAllRoleWithUserForm->getAttributes();
             // 获取数据
             $auth = Yii::$app->getAuthManager();
-            $dataProvider = $auth->getAssignments($attributes['user_id']);
-
-            // 结果数据返回
-            return $dataProvider;
+            return $auth->getAssignments($attributes['user_id']);
         } else {
             // 数据不合法
             throw new HttpException(422, $authItemAllRoleWithUserForm->getFirstError());

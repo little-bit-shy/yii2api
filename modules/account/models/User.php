@@ -2,12 +2,7 @@
 
 namespace account\models;
 
-use app\models\redis\AccessToken;
-use app\controllers\behaviors\QueryParamAuth;
 use Yii;
-use yii\caching\TagDependency;
-use yii\data\ArrayDataProvider;
-use yii\data\Pagination;
 
 /**
  * Class User
@@ -60,41 +55,6 @@ class User extends ActiveRecord
     /***************************** 增删改查 *********************************/
 
     /**
-     * 获取列表数据
-     * @return mixed
-     * @throws \Exception
-     * @throws \Throwable
-     */
-    public static function lists()
-    {
-        $user = ActiveRecord::getDb()->cache(function ($db) {
-            return self::getLists();
-        }, User::$dataTimeOut, new TagDependency(['tags' => [User::getAllDataTag()]]));
-        return $user;
-    }
-
-    /**
-     * 获取用户列表数据
-     * @return ArrayDataProvider
-     */
-    private static function getLists()
-    {
-        $query = User::find();
-        // 结果数据返回
-        $pagination = new Pagination([
-            'defaultPageSize' => 20,
-            'totalCount' => $query->count()
-        ]);
-        $data = $query->offset($pagination->getOffset())
-            ->limit($pagination->getLimit())
-            ->all();
-        return new ArrayDataProvider([
-            'models' => $data,
-            'Pagination' => $pagination,
-        ]);
-    }
-
-    /**
      * 添加用户
      * @param $account
      * @param $password
@@ -117,7 +77,41 @@ class User extends ActiveRecord
     }
 
     /**
-     * 重置用户密码
+     * 修改用户
+     * @param $userId
+     * @param $account
+     * @param $head
+     * @param $sex
+     * @param $phone
+     * @param $province
+     * @param $city
+     * @param $area
+     * @param $address
+     * @param $qq
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function updateUser($userId, $account, $head, $sex, $phone, $province, $city, $area, $address,$qq)
+    {
+        $user = User::findOne([
+            'tenant_id' => $userId
+        ]);
+        $user->load([$user->formName() => [
+            'account' => $account,
+            'head' => $head,
+            'sex' => $sex,
+            'phone' => $phone,
+            'province' => $province,
+            'city' => $city,
+            'area' => $area,
+            'address' => $address,
+            'qq' => $qq,
+        ]]);
+        return $user->save();
+    }
+
+    /**
+     * 通过用户id重置用户密码
      * @param $id
      * @param $password_hash
      * @return bool
@@ -128,6 +122,26 @@ class User extends ActiveRecord
         $time = time();
         $user = User::findOne([
             'tenant_id' => $id
+        ]);
+        $user->load([$user->formName() => [
+            'password' => $password_hash,
+            'updated_at' => $time,
+        ]]);
+        return $user->save();
+    }
+
+    /**
+     * 通过手机重置用户密码
+     * @param $mobile
+     * @param $password_hash
+     * @return bool
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function ResetPswMobile($mobile, $password_hash)
+    {
+        $time = time();
+        $user = User::findOne([
+            'mobile' => $mobile
         ]);
         $user->load([$user->formName() => [
             'password' => $password_hash,

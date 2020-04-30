@@ -87,25 +87,21 @@ Class UpdateForm extends Model
         $updateForm = new self();
         $updateForm->setScenario('update');
         if ($updateForm->load([$updateForm->formName() => $param]) && $updateForm->validate()) {
-            $attributes = $updateForm->getAttributes();
             //验证过滤后的数据
-            //获取登录的用户id
+            $attributes = $updateForm->getAttributes();
             $userId = Yii::$app->getUser()->getId();
-            $user = User::findOne([
-                'tenant_id' => $userId
-            ]);
-            $user->load([$user->formName() => [
-                'account' => $attributes['account'],
-                'head' => $attributes['head'],
-                'sex' => $attributes['sex'],
-                'phone' => $attributes['phone'],
-                'province' => $attributes['province'],
-                'city' => $attributes['city'],
-                'area' => $attributes['area'],
-                'address' => $attributes['address'],
-                'qq' => $attributes['qq'],
-            ]]);
-            if ($user->save()) {
+            if (User::updateUser(
+                $userId,
+                $attributes['account'],
+                $attributes['head'],
+                $attributes['sex'],
+                $attributes['phone'],
+                $attributes['province'],
+                $attributes['city'],
+                $attributes['area'],
+                $attributes['address'],
+                $attributes['qq']
+            )) {
                 throw new HttpException(200,  Yii::t('app/success','data update successfully'));
             } else {
                 throw new HttpException(500, Yii::t('app/error', 'server internal error'));

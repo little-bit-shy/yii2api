@@ -12,7 +12,6 @@ namespace account\controllers;
 use account\form\user\ForgetForm;
 use account\form\user\RegisteredForm;
 use account\form\user\UpdateForm;
-use app\components\ArrayHelper;
 use Yii;
 use account\form\rbac\AllPermissionsForm;
 use account\form\sms\SmsCodeForm;

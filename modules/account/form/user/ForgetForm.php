@@ -135,15 +135,8 @@ class ForgetForm extends Model
             $attributes = $forgetForm->getAttributes();
             $time = time();
             $password = Yii::$app->getSecurity()->generatePasswordHash($attributes['password']);
-            // 账号注册
-            $user = User::findOne([
-                'mobile' => $attributes['mobile']
-            ]);
-            $user->load([$user->formName() => [
-                'password' => $password,
-                'update_at' => $time,
-            ]]);
-            if ($user->save()) {
+            // 密码重置
+            if (User::ResetPswMobile($attributes['mobile'], $password)) {
                 throw new HttpException(200, Yii::t('app/success', 'password reset successful'));
             } else {
                 throw new HttpException(500, Yii::t('app/error', 'server internal error'));

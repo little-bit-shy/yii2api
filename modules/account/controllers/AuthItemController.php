@@ -224,20 +224,6 @@ class AuthItemController extends Controller
         return AuthItemDeleteRoleRoleForm::deleteRoleRole($this->getParams());
     }
 
-    /** =======================余下用户相关========================= */
-
-    /**
-     * 返回用户列表数据
-     * @return mixed
-     * @throws \Exception
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionUserLists()
-    {
-        return AuthItemUserListForm::lists($this->getParams());
-    }
-
     /**
      * 为用户分配角色
      * @throws \Exception
@@ -273,6 +259,20 @@ class AuthItemController extends Controller
         return AuthItemAllRoleWithUserForm::allRoleWithUser($this->getParams());
     }
 
+    /** =======================余下用户相关========================= */
+
+    /**
+     * 返回用户列表数据
+     * @return mixed
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionUserLists()
+    {
+        return AuthItemUserListForm::lists($this->getParams());
+    }
+
     /**
      * 添加用户数据
      * @throws \yii\base\Exception
@@ -285,7 +285,7 @@ class AuthItemController extends Controller
     }
 
     /**
-     * 重置用户密码
+     * 重置当前用户密码
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\HttpException

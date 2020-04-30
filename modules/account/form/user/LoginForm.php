@@ -9,9 +9,7 @@
 namespace account\form\user;
 
 use account\form\Model;
-use account\models\TenantWx;
 use account\redis\SmsCode;
-use app\components\ArrayHelper;
 use app\extensions\Wxapp;
 use app\models\User;
 use Yii;

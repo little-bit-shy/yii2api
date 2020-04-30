@@ -10,10 +10,6 @@ namespace account\form\rbac;
 
 use app\components\AppRoutes;
 use account\form\Model;
-use account\models\rbac\AuthAssignment;
-use account\models\rbac\AuthItem;
-use account\models\rbac\AuthItemChild;
-use account\models\rbac\AuthRule;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\HttpException;

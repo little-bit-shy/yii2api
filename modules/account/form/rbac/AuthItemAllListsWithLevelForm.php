@@ -8,13 +8,9 @@
 
 namespace account\form\rbac;
 
-use account\models\ActiveRecord;
-use account\models\rbac\AuthItem;
-use account\models\rbac\AuthItemChild;
 use app\components\ArrayHelper;
 use account\form\Model;
 use Yii;
-use yii\caching\TagDependency;
 use yii\web\HttpException;
 
 /**

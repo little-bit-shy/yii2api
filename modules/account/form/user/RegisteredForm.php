@@ -123,18 +123,11 @@ class RegisteredForm extends Model
         $registeredForm->setScenario('registered');
         if ($registeredForm->load([$registeredForm->formName() => $param]) && $registeredForm->validate()) {
             $attributes = $registeredForm->getAttributes();
-            $time = time();
             $password = Yii::$app->getSecurity()->generatePasswordHash($attributes['password']);
             // 账号注册
-            $user = new User();
-            $user->load([$user->formName() => [
-                'account' => Yii::t('app/message', 'cloud tendril'),
-                'mobile' => $attributes['mobile'],
-                'password' => $password,
-                'create_at' => $time,
-                'update_at' => $time,
-            ]]);
-            if ($user->save()) {
+            if (User::addUser(
+                Yii::t('app/message', 'default name'),
+                $password,$attributes['mobile'])) {
                 throw new HttpException(200, Yii::t('app/success', 'user registration successful'));
             } else {
                 throw new HttpException(500, Yii::t('app/error', 'server internal error'));

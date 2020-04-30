@@ -8,11 +8,8 @@
 
 namespace account\form\rbac;
 
-use account\models\ActiveRecord;
 use account\form\Model;
-use account\models\rbac\AuthItemChild;
 use Yii;
-use yii\caching\TagDependency;
 use yii\web\HttpException;
 
 /**
@@ -87,10 +84,7 @@ class AuthItemAllRoleWithRoleForm extends Model
             $attributes = $authItemAllRoleWithRoleForm->getAttributes();
             // 获取数据
             $auth = Yii::$app->getAuthManager();
-            $dataProvider = $auth->getChildRoles($attributes['role']);
-
-            // 结果数据返回
-            return $dataProvider;
+            return $auth->getChildRoles($attributes['role']);
         } else {
             // 数据不合法
             throw new HttpException(422, $authItemAllRoleWithRoleForm->getFirstError());

@@ -7,8 +7,5 @@
  */
 
 return [
-    'campus creator' => '校区创建者',
-    'campus renewal' => '校区续费',
-    'cloud tendril' => '云蔓',
-    'order subject' => '购买微课程',
+    'default name' => '默认名字',
 ];

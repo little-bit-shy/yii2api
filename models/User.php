@@ -167,6 +167,14 @@ class User extends ActiveRecord implements IdentityInterface, RateLimitInterface
         return $accessToken;
     }
 
+    /**
+     * 退出登录
+     * @return false|int
+     */
+    public static function logout(){
+        return AccessToken::removeAccessToken(self::getAccessToken());
+    }
+
     /***************************** 请求频率 *********************************/
 
     /**

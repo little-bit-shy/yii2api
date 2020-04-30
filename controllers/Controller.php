@@ -10,17 +10,12 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\QueryParamAuth;
-use app\models\ActiveRecord;
-use account\models\rbac\AuthAssignment;
-use account\models\rbac\AuthItem;
-use account\models\rbac\AuthItemChild;
 use Yii;
 use yii\base\InlineAction;
 use yii\filters\AccessControl;
 use yii\filters\Cors;
 use yii\filters\RateLimiter;
 use yii\helpers\ArrayHelper;
-use yii\caching\TagDependency;
 use yii\rest\Serializer;
 
 /**
