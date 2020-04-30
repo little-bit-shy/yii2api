@@ -33,7 +33,7 @@ class AuthItemUpdateRoleForm extends Model
         return [
             [['name', 'description', 'rule_name', 'data'], 'safe', 'on' => 'update-role'],
             [['name', 'description', 'rule_name', 'data'], 'string', 'on' => 'update-role'],
-            [['name'], 'required', 'on' => 'update-role'],
+            [['name', 'description'], 'required', 'on' => 'update-role'],
             [['name'], 'trim', 'on' => 'update-role'],
             [['rule_name'], 'validateRuleName', 'when' => function($model){
                 return !$model->hasErrors();

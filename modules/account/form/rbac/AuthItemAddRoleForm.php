@@ -32,7 +32,7 @@ class AuthItemAddRoleForm extends Model
     {
         return [
             [['name', 'description', 'rule_name', 'data'], 'safe', 'on' => 'add-role'],
-            [['name'], 'required', 'on' => 'add-role'],
+            [['name', 'description'], 'required', 'on' => 'add-role'],
             [['name'], 'trim', 'on' => 'add-role'],
             [['name', 'description', 'rule_name', 'data'], 'string', 'on' => 'add-role'],
             [['rule_name'], 'validateRuleName', 'when' => function($model){

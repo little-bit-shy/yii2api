@@ -225,6 +225,9 @@
                 updateFormRule: {
                     name: [
                         {required: true, message: '角色不能为空', trigger: 'blur'}
+                    ],
+                    description: [
+                        {required: true, message: '简介不能为空', trigger: 'blur'}
                     ]
                 },
                 addModal: false,
@@ -239,6 +242,9 @@
                 addFormRule: {
                     name: [
                         {required: true, message: '角色不能为空', trigger: 'blur'}
+                    ],
+                    description: [
+                        {required: true, message: '简介不能为空', trigger: 'blur'}
                     ]
                 },
                 allotModal: false,
