@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\extensions;
 
 use Yii;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;

@@ -2,7 +2,7 @@
 
 if (YII_ENV_PROD) {
     return [
-        'class' => '\app\components\EasySms',
+        'class' => '\app\extensions\EasySms',
         'config' => [
             // HTTP 请求的超时时间（秒）
             'timeout' => 5.0,
@@ -36,7 +36,7 @@ if (YII_ENV_PROD) {
     ];
 } else if (YII_ENV_TEST) {
     return [
-        'class' => '\app\components\EasySms',
+        'class' => '\app\extensions\EasySms',
         'config' => [
             // HTTP 请求的超时时间（秒）
             'timeout' => 5.0,
@@ -70,7 +70,7 @@ if (YII_ENV_PROD) {
     ];
 } else if (YII_ENV_DEV) {
     return [
-        'class' => '\app\components\EasySms',
+        'class' => '\app\extensions\EasySms',
         'config' => [
             // HTTP 请求的超时时间（秒）
             'timeout' => 5.0,
