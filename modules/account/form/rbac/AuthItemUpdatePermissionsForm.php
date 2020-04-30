@@ -13,6 +13,8 @@ use account\models\rbac\AuthAssignment;
 use account\models\rbac\AuthItem;
 use account\models\rbac\AuthItemChild;
 use account\models\rbac\AuthRule;
+use app\components\AppRoutes;
+use app\components\ArrayHelper;
 use Yii;
 use yii\web\HttpException;
 
@@ -39,10 +41,12 @@ class AuthItemUpdatePermissionsForm extends Model
             [['name', 'description', 'rule_name', 'data'], 'string', 'on' => 'update-permissions'],
             [['name'], 'required', 'on' => 'update-permissions'],
             [['name'], 'trim', 'on' => 'update-permissions'],
-            [['name'], 'exist', 'targetClass' => AuthItem::className(), 'on' => 'update-permissions'],
             [['rule_name'], 'validateRuleName', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'skipOnEmpty' => false, 'on' => 'update-permissions'],
+            [['name'], 'validateName', 'when' => function($model){
+                return !$model->hasErrors();
+            } , 'on' => 'update-permissions'],
         ];
     }
 
@@ -57,6 +61,28 @@ class AuthItemUpdatePermissionsForm extends Model
                 'name', 'description', 'rule_name', 'data'
             ]
         ];
+    }
+
+    /**
+     * 验证name参数是否合法
+     * @param $attribute
+     * @param $params
+     */
+    public function validateName($attribute, $params)
+    {
+        $appRoutes = (new AppRoutes())->getAppRoutes();
+        if (!ArrayHelper::isIn($this->$attribute, $appRoutes)) {
+            $this->addError($attribute, Yii::t('app/error', 'permissions name error'));
+            return;
+        }
+
+        $auth = Yii::$app->getAuthManager();
+        // 权限是否存在
+        $permission = $auth->getPermission($this->name);
+        if(!empty($permission)){
+            $this->addError($attribute, Yii::t('app/error', 'the data exist'));
+            return;
+        }
     }
 
     /**
@@ -107,11 +133,6 @@ class AuthItemUpdatePermissionsForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemUpdatePermissionsForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
             $permission = $auth->createPermission($attributes['name']);

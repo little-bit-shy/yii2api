@@ -39,10 +39,12 @@ class AuthItemAddRoleForm extends Model
             [['name'], 'required', 'on' => 'add-role'],
             [['name'], 'trim', 'on' => 'add-role'],
             [['name', 'description', 'rule_name', 'data'], 'string', 'on' => 'add-role'],
-            [['name'], 'unique', 'targetClass' => AuthItem::className(), 'filter' => ['type' => 2], 'on' => 'add-role'],
             [['rule_name'], 'validateRuleName', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'skipOnEmpty' => false, 'on' => 'add-role'],
+            [['name'], 'validateName', 'when' => function($model){
+                return !$model->hasErrors();
+            } , 'on' => 'add-role'],
         ];
     }
 
@@ -57,6 +59,22 @@ class AuthItemAddRoleForm extends Model
                 'name', 'description', 'rule_name', 'data'
             ]
         ];
+    }
+
+    /**
+     * 验证name参数是否合法
+     * @param $attribute
+     * @param $params
+     */
+    public function validateName($attribute, $params)
+    {
+        $auth = Yii::$app->getAuthManager();
+        // 角色是否存在
+        $role = $auth->getRole($this->name);
+        if(!empty($role)){
+            $this->addError($attribute, Yii::t('app/error', 'the data exist'));
+            return;
+        }
     }
 
     /**
@@ -108,11 +126,6 @@ class AuthItemAddRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAddRoleForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
             $role = $auth->createRole($attributes['name']);

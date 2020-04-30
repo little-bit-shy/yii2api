@@ -2,7 +2,7 @@
  * @desc 消息提示
  * @type {{}}
  */
-import iview from 'iview';
+import iview from 'view-design';
 import vue from 'vue';
 
 /**

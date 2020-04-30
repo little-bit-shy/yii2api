@@ -8,7 +8,6 @@
 
 namespace account\models\rbac;
 
-use account\models\ActiveRecord;
 use yii\caching\TagDependency;
 use Yii;
 

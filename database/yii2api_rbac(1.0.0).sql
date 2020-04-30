@@ -1,0 +1,166 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 本地开发
+ Source Server Type    : MySQL
+ Source Server Version : 50728
+ Source Host           : 192.168.1.123:3306
+ Source Schema         : yii2api
+
+ Target Server Type    : MySQL
+ Target Server Version : 50728
+ File Encoding         : 65001
+
+ Date: 30/04/2020 09:35:42
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for y_auth_assignment
+-- ----------------------------
+DROP TABLE IF EXISTS `y_auth_assignment`;
+CREATE TABLE `y_auth_assignment`  (
+  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `created_at` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`item_name`, `user_id`) USING BTREE,
+  INDEX `auth_assignment_user_id_idx`(`user_id`) USING BTREE,
+  CONSTRAINT `y_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `y_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'rbac' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of y_auth_assignment
+-- ----------------------------
+INSERT INTO `y_auth_assignment` VALUES ('root', '1', 1588152941);
+
+-- ----------------------------
+-- Table structure for y_auth_item
+-- ----------------------------
+DROP TABLE IF EXISTS `y_auth_item`;
+CREATE TABLE `y_auth_item`  (
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `type` smallint(6) NOT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `rule_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `data` blob NULL,
+  `created_at` int(11) NULL DEFAULT NULL,
+  `updated_at` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`name`) USING BTREE,
+  INDEX `rule_name`(`rule_name`) USING BTREE,
+  INDEX `type`(`type`) USING BTREE,
+  CONSTRAINT `y_auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `y_auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'rbac' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of y_auth_item
+-- ----------------------------
+INSERT INTO `y_auth_item` VALUES ('/*', 2, '全部', NULL, NULL, 1588151919, 1588153011);
+INSERT INTO `y_auth_item` VALUES ('/account/*', 2, '账户中心', NULL, NULL, 1588151921, 1588151956);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/*', 2, '权限管理', NULL, NULL, 1588151920, 1588152138);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-permissions', 2, '添加权限', NULL, NULL, 1588151920, 1588152147);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-role', 2, '添加角色', NULL, NULL, 1588151920, 1588152154);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-role-permissions', 2, '添加角色权限', NULL, NULL, 1588151920, 1588152191);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-role-role', 2, '添加角色角色', NULL, NULL, 1588151920, 1588152209);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-user', 2, '添加账号', NULL, NULL, 1588151920, 1588152227);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-user-role', 2, '添加账号角色', NULL, NULL, 1588151920, 1588152248);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/all-lists', 2, '全部权限、角色列表', NULL, NULL, 1588151920, 1588152297);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/all-lists-with-level', 2, '全部权限列表数据（树状结构）', NULL, NULL, 1588151920, 1588152368);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/all-lists-with-role', 2, '角色所有权限列表', NULL, NULL, 1588151920, 1588152389);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/all-role-with-role', 2, '角色所有角色列表', NULL, NULL, 1588151920, 1588152403);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/all-role-with-user', 2, '账号所有角色列表', NULL, NULL, 1588151920, 1588152426);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/delete-role-permissions', 2, '删除角色权限', NULL, NULL, 1588151920, 1588152441);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/delete-role-role', 2, '删除角色角色', NULL, NULL, 1588151920, 1588152452);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/delete-user-role', 2, '删除账号角色', NULL, NULL, 1588151920, 1588152462);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/index', 2, '权限、角色列表数据', NULL, NULL, 1588151919, 1588152549);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/project-directory', 2, '项目所有操作', NULL, NULL, 1588151920, 1588152580);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/remove-permissions', 2, '删除权限', NULL, NULL, 1588151920, 1588152590);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/reset-psw-user', 2, '重置账号密码', NULL, NULL, 1588151920, 1588152606);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/update-permissions', 2, '修改权限', NULL, NULL, 1588151920, 1588152626);
+INSERT INTO `y_auth_item` VALUES ('/account/auth-item/user-lists', 2, '账号列表', NULL, NULL, 1588151920, 1588152635);
+INSERT INTO `y_auth_item` VALUES ('/account/site/*', 2, '基本操作', NULL, NULL, 1588151921, 1588152642);
+INSERT INTO `y_auth_item` VALUES ('/account/site/all-permissions', 2, '账号所有权限', NULL, NULL, 1588151921, 1588152655);
+INSERT INTO `y_auth_item` VALUES ('/account/site/captcha', 2, '获取验证码', NULL, NULL, 1588151920, 1588152667);
+INSERT INTO `y_auth_item` VALUES ('/account/site/forget', 2, '忘记密码', NULL, NULL, 1588151921, 1588152676);
+INSERT INTO `y_auth_item` VALUES ('/account/site/login', 2, '账号登录', NULL, NULL, 1588151921, 1588152711);
+INSERT INTO `y_auth_item` VALUES ('/account/site/logout', 2, '账号登出', NULL, NULL, 1588151921, 1588152724);
+INSERT INTO `y_auth_item` VALUES ('/account/site/registered', 2, '账号注册', NULL, NULL, 1588151921, 1588152731);
+INSERT INTO `y_auth_item` VALUES ('/account/site/sms-code', 2, '发送手机验证码', NULL, NULL, 1588151921, 1588152754);
+INSERT INTO `y_auth_item` VALUES ('/account/site/tenant-info', 2, '账号信息', NULL, NULL, 1588151921, 1588152764);
+INSERT INTO `y_auth_item` VALUES ('/account/site/update', 2, '账号信息修改', NULL, NULL, 1588151921, 1588152778);
+INSERT INTO `y_auth_item` VALUES ('ordinaryUser', 1, '普通用户', NULL, NULL, 1588152804, 1588152804);
+INSERT INTO `y_auth_item` VALUES ('root', 1, '超级管理员', NULL, NULL, 1588152817, 1588152817);
+
+-- ----------------------------
+-- Table structure for y_auth_item_child
+-- ----------------------------
+DROP TABLE IF EXISTS `y_auth_item_child`;
+CREATE TABLE `y_auth_item_child`  (
+  `parent` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `child` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`parent`, `child`) USING BTREE,
+  INDEX `child`(`child`) USING BTREE,
+  CONSTRAINT `y_auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `y_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `y_auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `y_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'rbac' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of y_auth_item_child
+-- ----------------------------
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-role-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-role-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-user');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/add-user-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/all-lists');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/all-lists-with-level');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/all-lists-with-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/all-role-with-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/all-role-with-user');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/delete-role-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/delete-role-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/delete-user-role');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/index');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/project-directory');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/remove-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/reset-psw-user');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/update-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/user-lists');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/all-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/all-permissions');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/captcha');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/captcha');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/forget');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/forget');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/login');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/login');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/logout');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/logout');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/registered');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/registered');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/sms-code');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/sms-code');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/tenant-info');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/tenant-info');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/update');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/update');
+
+-- ----------------------------
+-- Table structure for y_auth_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `y_auth_rule`;
+CREATE TABLE `y_auth_rule`  (
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `data` blob NULL,
+  `created_at` int(11) NULL DEFAULT NULL,
+  `updated_at` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`name`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'rbac' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of y_auth_rule
+-- ----------------------------
+
+SET FOREIGN_KEY_CHECKS = 1;

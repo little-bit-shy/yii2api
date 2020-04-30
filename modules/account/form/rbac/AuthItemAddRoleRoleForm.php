@@ -37,8 +37,6 @@ class AuthItemAddRoleRoleForm extends Model
             [['role', 'child_role'], 'required', 'on' => 'add-role-role'],
             [['role', 'child_role'], 'trim', 'on' => 'add-role-role'],
             [['role', 'child_role'], 'string', 'on' => 'add-role-role'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'add-role-role'],
-            [['child_role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['child_role' => 'name'], 'filter' => ['type' => 1], 'on' => 'add-role-role'],
             [['role'], 'validateRole', 'when' => function($model){
                 return !$model->hasErrors();
             } ,'on' => 'add-role-role']
@@ -67,11 +65,15 @@ class AuthItemAddRoleRoleForm extends Model
     public function validateRole($attribute, $params)
     {
         $auth = Yii::$app->getAuthManager();
-        $parent = $auth->getRole($this->role);
-        $child = $auth->getRole($this->child_role);
 
-        if ($this->role === $this->child_role) {
-            $this->addError($attribute, Yii::t('app/error', 'the data exist'));
+        $parent = $auth->getRole($this->role);
+        if(empty($parent)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
+        $child = $auth->getRole($this->child_role);
+        if(empty($child)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
 
@@ -122,11 +124,6 @@ class AuthItemAddRoleRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAddRoleRoleForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
             $parent = $auth->getRole($attributes['role']);

@@ -103,7 +103,7 @@ export const appRouter = () => {
     return [
         {
             path: '/home',
-            icon: 'key',
+            icon: 'md-home',
             name: 'home',
             title: '首页',
             component: Main,
@@ -121,13 +121,14 @@ export const appRouter = () => {
         },
         {
             path: '/access',
-            icon: 'lock-combination',
+            icon: 'md-settings',
             name: 'access',
             title: '权限管理',
             component: Main,
             children: [
                 {
-                    access: access(['/account/auth-item/project-directory', '/account/auth-item/all-lists']),
+                    access: access(['/account/auth-item/project-directory', '/account/auth-item/index']),
+                    icon: 'md-cog',
                     path: 'add-permissions',
                     title: '添加权限',
                     name: 'access-add-permissions',
@@ -137,6 +138,7 @@ export const appRouter = () => {
                 },
                 {
                     access: access(['/account/auth-item/index']),
+                    icon: 'md-aperture',
                     path: 'manage-permissions',
                     title: '管理权限',
                     name: 'access-manage-permissions',
@@ -146,6 +148,7 @@ export const appRouter = () => {
                 },
                 {
                     access: access(['/account/auth-item/index']),
+                    icon: 'md-people',
                     path: 'manage-roles',
                     title: '管理角色',
                     name: 'access-manage-roles',
@@ -155,6 +158,7 @@ export const appRouter = () => {
                 },
                 {
                     access: access(['/account/auth-item/user-lists']),
+                    icon: 'md-person',
                     path: 'manage-users',
                     title: '管理用户',
                     name: 'access-manage-users',

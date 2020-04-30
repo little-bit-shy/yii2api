@@ -40,8 +40,6 @@ class AuthItemDeleteUserRoleForm extends Model
             [['role'], 'trim', 'on' => 'delete-user-role'],
             [['user_id'], 'integer', 'on' => 'delete-user-role'],
             [['role'], 'string', 'on' => 'delete-user-role'],
-            [['user_id'], 'exist', 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'tenant_id'], 'on' => 'delete-user-role'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'delete-user-role'],
             [['role'], 'validateNameAndRole', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'delete-user-role']
@@ -69,9 +67,15 @@ class AuthItemDeleteUserRoleForm extends Model
      */
     public function validateNameAndRole($attribute, $params)
     {
-        // 是否已存在该数据
-        $authItemChild = AuthAssignment::exists($this->user_id, $this->role);
-        if(!$authItemChild){
+        $auth = Yii::$app->getAuthManager();
+        $role = $auth->getRole($this->role);
+
+        if(empty($role)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
+        $roles = $auth->getAssignments($this->user_id);
+        if(!isset($roles[$this->role])){
             $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
@@ -111,10 +115,6 @@ class AuthItemDeleteUserRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemDeleteUserRoleForm->getAttributes();
-
-            // 单独清除一下用户权限依赖
-            TagDependency::invalidate(AuthAssignment::getTagCache(), [AuthAssignment::getUserDataTag($attributes['user_id'])]);
-
             $auth = Yii::$app->getAuthManager();
             $role = $auth->createRole($attributes['role']);
             if ($auth->revoke($role, $attributes['user_id'])) {

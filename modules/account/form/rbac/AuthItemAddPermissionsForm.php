@@ -38,7 +38,6 @@ class AuthItemAddPermissionsForm extends Model
             [['name'], 'required', 'on' => 'add-permissions'],
             [['name'], 'trim', 'on' => 'add-permissions'],
             [['name'], 'string', 'on' => 'add-permissions'],
-            [['name'], 'unique', 'targetClass' => AuthItem::className(), 'filter' => ['type' => 2], 'on' => 'add-permissions'],
             [['name'], 'validateName', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'add-permissions'],
@@ -55,6 +54,14 @@ class AuthItemAddPermissionsForm extends Model
         $appRoutes = (new AppRoutes())->getAppRoutes();
         if (!ArrayHelper::isIn($this->$attribute, $appRoutes)) {
             $this->addError($attribute, Yii::t('app/error', 'permissions name error'));
+            return;
+        }
+
+        $auth = Yii::$app->getAuthManager();
+        // 权限是否存在
+        $permission = $auth->getPermission($this->name);
+        if(!empty($permission)){
+            $this->addError($attribute, Yii::t('app/error', 'the data exist'));
             return;
         }
     }
@@ -105,12 +112,6 @@ class AuthItemAddPermissionsForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAddPermissionsForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
-
             $auth = Yii::$app->getAuthManager();
             $permission = $auth->createPermission($attributes['name']);
             $permission->description = $attributes['name'];

@@ -37,8 +37,6 @@ class AuthItemAddRolePermissionsForm extends Model
             [['name', 'role'], 'required', 'on' => 'add-role-permissions'],
             [['name', 'role'], 'trim', 'on' => 'add-role-permissions'],
             [['name', 'role'], 'string', 'on' => 'add-role-permissions'],
-            [['name'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['name' => 'name'], 'filter' => ['type' => 2], 'on' => 'add-role-permissions'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'add-role-permissions'],
             [['name'], 'validateNameAndRole', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'add-role-permissions']
@@ -66,15 +64,28 @@ class AuthItemAddRolePermissionsForm extends Model
      */
     public function validateNameAndRole($attribute, $params)
     {
-        // 是否已存在该数据
-        $authItemChild = AuthItemChild::exists($this->role, $this->name);
-        if($authItemChild){
+        $auth = Yii::$app->getAuthManager();
+        // 权限是否存在
+        $permission = $auth->getPermission($this->name);
+        if(empty($permission)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
+
+        // 角色是否存在
+        $role = $auth->getRole($this->role);
+        if(empty($role)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
+
+        // 确认关系是否存在
+        if($auth->hasChild($role, $permission) == true){
             $this->addError($attribute, Yii::t('app/error', 'the data exist'));
             return;
         }
 
         // 验证权限、角色关系是否合法
-        $auth = Yii::$app->getAuthManager();
         $role = $auth->createRole($this->role);
         $permission = $auth->createPermission($this->name);
         if (!$auth->canAddChild($role, $permission)) {
@@ -117,11 +128,6 @@ class AuthItemAddRolePermissionsForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAddRolePermissionsForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
             $permission = $auth->createRole($attributes['name']);

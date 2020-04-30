@@ -72,12 +72,12 @@
             getTargetKeys () {
                 let targetKeys = [];
                 // 获取所有权限
-                (new ajax()).send(this,'/account/auth-item/all-lists', {
+                (new ajax()).send(this,'/account/auth-item/index', {
                     'type': 2
                 }).then((response) => {
                     var data = response.data;
                     for (let directory in data.data) {
-                        targetKeys.push(directory);
+                        targetKeys.push(data.data[directory].name);
                     }
                 }).catch((error) => {
                 });

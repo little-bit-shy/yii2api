@@ -8,8 +8,6 @@
 
 namespace account\models\rbac;
 
-use account\models\ActiveRecord;
-
 /**
  * Class AuthRule
  * @package account\models\rbac

@@ -35,7 +35,6 @@ class AuthItemAllRoleWithUserForm extends Model
             [['user_id'], 'safe', 'on' => 'all-role-with-user'],
             [['user_id'], 'required', 'on' => 'all-role-with-user'],
             [['user_id'], 'integer', 'on' => 'all-role-with-user'],
-            [['user_id'], 'exist', 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'tenant_id'], 'on' => 'all-role-with-user'],
 
         ];
     }
@@ -88,15 +87,11 @@ class AuthItemAllRoleWithUserForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAllRoleWithUserForm->getAttributes();
-            $dataProvider = ActiveRecord::getDb()->cache(function ($db) use ($attributes) {
-                // 获取数据
-                $auth = Yii::$app->getAuthManager();
-                $dataProvider = $auth->getAssignments($attributes['user_id']);
+            // 获取数据
+            $auth = Yii::$app->getAuthManager();
+            $dataProvider = $auth->getAssignments($attributes['user_id']);
 
-                // 结果数据返回
-                return $dataProvider;
-            }, AuthAssignment::$dataTimeOut, new TagDependency(['tags' => [AuthAssignment::getUserDataTag($attributes['user_id'])]]));
-
+            // 结果数据返回
             return $dataProvider;
         } else {
             // 数据不合法

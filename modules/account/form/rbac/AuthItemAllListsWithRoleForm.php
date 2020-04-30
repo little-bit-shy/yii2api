@@ -88,14 +88,9 @@ class AuthItemAllListsWithRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $actionAllListsWithRole->getAttributes();
-            $dataProvider = ActiveRecord::getDb()->cache(function ($db) use ($attributes) {
-                // 获取数据
-                $auth = Yii::$app->getAuthManager();
-                $dataProvider = $auth->getPermissionsByRole($attributes['name']);
-
-                // 结果数据返回
-                return $dataProvider;
-            }, AuthItemChild::$dataTimeOut, new TagDependency(['tags' => [AuthItem::getAllDataTag(), AuthItemChild::getAllDataTag()]]));
+            // 获取数据
+            $auth = Yii::$app->getAuthManager();
+            $dataProvider = $auth->getPermissionsByRole($attributes['name']);
 
             return $dataProvider;
         } else {

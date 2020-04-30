@@ -38,12 +38,16 @@ $config = [
         'log' => $log,
         // 个人中心数据库配置
         'accountDb' => $db['account'],
+        // 权限控制数据库配置
+        'rbacDb' => $db['rbac'],
         //路由配置
         'urlManager' => $urlManager,
         // 令牌、频率缓存配置
         'cache' => $cache['login'],
         // 个人中心缓存配置
         'accountCache' => $cache['account'],
+        // 权限控制缓存配置
+        'rbacCache' => $cache['rbac'],
         //rbac权限管理
         'authManager' => $authManager,
         //请求相关配置

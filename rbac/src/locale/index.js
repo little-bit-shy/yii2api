@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Locales from './locale';
-import zhLocale from 'iview/src/locale/lang/zh-CN';
-import enLocale from 'iview/src/locale/lang/en-US';
-import zhTLocale from 'iview/src/locale/lang/zh-TW';
+import zhLocale from 'view-design/src/locale/lang/zh-CN';
+import enLocale from 'view-design/src/locale/lang/en-US';
+import zhTLocale from 'view-design/src/locale/lang/zh-TW';
 
 // 自动设置语言
 const navLang = navigator.language;

@@ -68,14 +68,10 @@ class AuthItemAllListsWithLevelForm extends Model
      */
     public static function allListsWithLevel($param)
     {
-        $dataProvider = ActiveRecord::getDb()->cache(function ($db) {
-            $auth = Yii::$app->getAuthManager();
-            // 获取数据
-            $dataProvider = ArrayHelper::toArray($auth->getPermissions());
-            // 数据重构（增加层次结构）
-            return ArrayHelper::menu($dataProvider, 'name');
-        }, AuthItem::$dataTimeOut, new TagDependency(['tags' => [AuthItem::getAllDataTag(), AuthItemChild::getAllDataTag()]]));
-
-        return $dataProvider;
+        $auth = Yii::$app->getAuthManager();
+        // 获取数据
+        $dataProvider = ArrayHelper::toArray($auth->getPermissions());
+        // 数据重构（增加层次结构）
+        return ArrayHelper::menu($dataProvider, 'name');
     }
 }

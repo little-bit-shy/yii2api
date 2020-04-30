@@ -37,8 +37,6 @@ class AuthItemDeleteRoleRoleForm extends Model
             [['role', 'child_role'], 'required', 'on' => 'delete-role-role'],
             [['role', 'child_role'], 'trim', 'on' => 'delete-role-role'],
             [['role', 'child_role'], 'string', 'on' => 'delete-role-role'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'delete-role-role'],
-            [['child_role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['child_role' => 'name'], 'filter' => ['type' => 1], 'on' => 'delete-role-role'],
             [['role'], 'validateRole', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'delete-role-role'],
@@ -68,10 +66,13 @@ class AuthItemDeleteRoleRoleForm extends Model
     {
         $auth = Yii::$app->getAuthManager();
         $parent = $auth->getRole($this->role);
+        if(empty($parent)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
         $child = $auth->getRole($this->child_role);
-
-        if ($this->role === $this->child_role) {
-            $this->addError($attribute, Yii::t('app/error', 'this data cannot be deleted'));
+        if(empty($child)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
 
@@ -116,11 +117,6 @@ class AuthItemDeleteRoleRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemDeleteRoleRoleForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
             $parent = $auth->getRole($attributes['role']);

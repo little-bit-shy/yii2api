@@ -9,11 +9,10 @@
 namespace account\form\rbac;
 
 use account\form\Model;
-use account\models\rbac\AuthItem;
-use app\components\LikeValidator;
-use app\components\StringHelper;
+use app\components\ArrayHelper;
 use Yii;
-use yii\db\Query;
+use yii\data\ArrayDataProvider;
+use yii\data\Pagination;
 use yii\web\HttpException;
 
 /**
@@ -24,7 +23,6 @@ use yii\web\HttpException;
 class AuthItemIndexForm extends Model
 {
     public $type;
-    public $name;
 
     /**
      * 验证规则
@@ -33,9 +31,7 @@ class AuthItemIndexForm extends Model
     public function rules()
     {
         return [
-            [['type', 'name'], 'safe', 'on' => 'index'],
-            [['name'], 'string', 'on' => 'index'],
-            [['name'], LikeValidator::className(), 'skipOnEmpty' => true, 'on' => 'index'],
+            [['type'], 'safe', 'on' => 'index'],
             [['type'], 'default', 'value' => 2, 'on' => 'index'],
             [['type'], 'in', 'range' => [1, 2], 'on' => 'index'],
         ];
@@ -50,7 +46,6 @@ class AuthItemIndexForm extends Model
         return [
             'index' => [
                 'type',
-                'name'
             ]
         ];
     }
@@ -62,7 +57,7 @@ class AuthItemIndexForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('app\attribute', 'name'),
+            'type' => Yii::t('app\attribute', 'type'),
         ];
     }
 
@@ -89,9 +84,19 @@ class AuthItemIndexForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemIndexForm->getAttributes();
-            // 获取数据
-            $dataProvider = AuthItem::arrayDataProvider($attributes['type'], $attributes['name']);
-            return $dataProvider;
+            $auth = Yii::$app->getAuthManager();
+            switch ($attributes['type']) {
+                case 1:
+                    $models = $auth->getRoles();
+                    break;
+                case 2:
+                    $models = $auth->getPermissions();
+                    break;
+            }
+            return new ArrayDataProvider([
+                'pagination' => false,
+                'models' => $models,
+            ]);
         } else {
             // 数据不合法
             throw new HttpException(422, $authItemIndexForm->getFirstError());

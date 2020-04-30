@@ -117,17 +117,7 @@ class Controller extends \yii\rest\Controller
                         // 权限验证
                         $uniqueId = '/' . $action->getUniqueId();
                         $user = Yii::$app->getUser();
-                        $userId = $user->getId();
-                        $can = ActiveRecord::getDb()->cache(function ($db) use ($user, $uniqueId) {
-                            return $user->can($uniqueId);
-                        }, ActiveRecord::$dataTimeOut, new TagDependency([
-                            'tags' => [
-                                AuthItem::getAllDataTag()
-                                , AuthItemChild::getAllDataTag()
-                                , AuthAssignment::getUserDataTag($userId)
-                            ]
-                        ]));
-                        return $can;
+                        return $user->can($uniqueId);
                     }
                 ],
             ],

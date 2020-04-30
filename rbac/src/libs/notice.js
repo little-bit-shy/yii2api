@@ -2,7 +2,7 @@
  * @desc 通知提醒
  * @type {{}}
  */
-import iview from 'iview';
+import iview from 'view-design';
 import vue from 'vue';
 
 /**

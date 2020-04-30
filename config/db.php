@@ -14,6 +14,18 @@ if (YII_ENV_PROD) {
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
         ],
+        'rbac' => [
+            'class' => \yii\db\Connection::className(),
+            'dsn' => 'mysql:host=127.0.0.1;dbname=yii2api_rbac',
+            'username' => 'root',
+            'password' => '123456',
+            'charset' => 'utf8',
+            'tablePrefix' => 'y_',
+            'queryCache' => 'rbacCache',
+            'attributes'  => [
+                PDO::ATTR_STRINGIFY_FETCHES => false,
+            ]
+        ],
     ];
 } else if (YII_ENV_TEST) {
     return [
@@ -29,6 +41,18 @@ if (YII_ENV_PROD) {
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
         ],
+        'rbac' => [
+            'class' => \yii\db\Connection::className(),
+            'dsn' => 'mysql:host=127.0.0.1;dbname=yii2api_rbac',
+            'username' => 'root',
+            'password' => '123456',
+            'charset' => 'utf8',
+            'tablePrefix' => 'y_',
+            'queryCache' => 'rbacCache',
+            'attributes'  => [
+                PDO::ATTR_STRINGIFY_FETCHES => false,
+            ]
+        ],
     ];
 } else if (YII_ENV_DEV) {
     return [
@@ -40,6 +64,18 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'accountCache',
+            'attributes'  => [
+                PDO::ATTR_STRINGIFY_FETCHES => false,
+            ]
+        ],
+        'rbac' => [
+            'class' => \yii\db\Connection::className(),
+            'dsn' => 'mysql:host=127.0.0.1;dbname=yii2api_rbac',
+            'username' => 'root',
+            'password' => '123456',
+            'charset' => 'utf8',
+            'tablePrefix' => 'y_',
+            'queryCache' => 'rbacCache',
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]

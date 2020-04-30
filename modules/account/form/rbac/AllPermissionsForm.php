@@ -67,16 +67,12 @@ class AllPermissionsForm extends Model
         // 获取默认角色拥有的权限
         $defaultRoles = Yii::$app->params['defaultRoles'];
         $userId = Yii::$app->getUser()->getId();
-        $permissions = ActiveRecord::getDb()->cache(function ($db) use ($defaultRoles,$userId) {
-            $auth = Yii::$app->getAuthManager();
-            $permissions = [];
-            foreach ($defaultRoles as $defaultRole) {
-                $permissions = ArrayHelper::merge($permissions, $auth->getPermissionsByRole($defaultRole));
-            }
-            $permissions = ArrayHelper::merge($permissions, $auth->getPermissionsByUser($userId));
-            return $permissions;
-        }, AuthItem::$dataTimeOut, new TagDependency(['tags' => [AuthItem::getAllDataTag(), AuthItemChild::getAllDataTag(), AuthAssignment::getUserDataTag($userId), AuthRule::getAllDataTag()]]));
-
+        $auth = Yii::$app->getAuthManager();
+        $permissions = [];
+        foreach ($defaultRoles as $defaultRole) {
+            $permissions = ArrayHelper::merge($permissions, $auth->getPermissionsByRole($defaultRole));
+        }
+        $permissions = ArrayHelper::merge($permissions, $auth->getPermissionsByUser($userId));
         return $permissions;
     }
 }

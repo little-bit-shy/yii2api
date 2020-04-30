@@ -50,7 +50,7 @@
                         if (this.data !== undefined) {
                             return resolve();
                         }
-                        (new ajax()).send(this,'/account/auth-item/all-lists', {
+                        (new ajax()).send(this,'/account/auth-item/index', {
                             'type': 1
                         }).then((response) => {
                             var data = response.data;

@@ -183,7 +183,7 @@
 // import alCascader from './components/al-cascader.vue';
 
 import Vue from 'vue';
-import iviewArea from 'iview-area';
+import iviewArea from 'view-design-area';
 Vue.use(iviewArea);
 
 export default {

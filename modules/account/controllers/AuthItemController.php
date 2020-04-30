@@ -78,7 +78,7 @@ class AuthItemController extends Controller
     }
 
     /**
-     * 返回列表数据
+     * 返回权限、角色列表数据
      * @return mixed
      * @throws \Exception
      * @throws \Throwable
@@ -88,19 +88,6 @@ class AuthItemController extends Controller
     public function actionIndex()
     {
         return AuthItemIndexForm::lists($this->getParams());
-    }
-
-    /**
-     * 返回所有列表数据
-     * @return mixed
-     * @throws \Exception
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\HttpException
-     */
-    public function actionAllLists()
-    {
-        return AuthItemAllListsForm::allLists($this->getParams());
     }
 
     /**
@@ -204,6 +191,43 @@ class AuthItemController extends Controller
     }
 
     /**
+     * 返回角色下的所有角色列表数据
+     * @return mixed
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionAllRoleWithRole()
+    {
+        return AuthItemAllRoleWithRoleForm::allRoleWithRole($this->getParams());
+    }
+
+    /**
+     * 为角色分配角色
+     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionAddRoleRole()
+    {
+        return AuthItemAddRoleRoleForm::addRoleRole($this->getParams());
+    }
+
+    /**
+     * 删除为角色分配的角色
+     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionDeleteRoleRole()
+    {
+        return AuthItemDeleteRoleRoleForm::deleteRoleRole($this->getParams());
+    }
+
+    /** =======================余下用户相关========================= */
+
+    /**
      * 返回用户列表数据
      * @return mixed
      * @throws \Exception
@@ -248,41 +272,6 @@ class AuthItemController extends Controller
     public function actionAllRoleWithUser()
     {
         return AuthItemAllRoleWithUserForm::allRoleWithUser($this->getParams());
-    }
-
-    /**
-     * 返回角色下的所有角色列表数据
-     * @return mixed
-     * @throws \Exception
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\HttpException
-     */
-    public function actionAllRoleWithRole()
-    {
-        return AuthItemAllRoleWithRoleForm::allRoleWithRole($this->getParams());
-    }
-
-    /**
-     * 为角色分配角色
-     * @throws \Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\HttpException
-     */
-    public function actionAddRoleRole()
-    {
-        return AuthItemAddRoleRoleForm::addRoleRole($this->getParams());
-    }
-
-    /**
-     * 删除为角色分配的角色
-     * @throws \Exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\HttpException
-     */
-    public function actionDeleteRoleRole()
-    {
-        return AuthItemDeleteRoleRoleForm::deleteRoleRole($this->getParams());
     }
 
     /**

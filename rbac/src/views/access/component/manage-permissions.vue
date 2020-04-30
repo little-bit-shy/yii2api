@@ -101,38 +101,21 @@
             </Col>
         </Row>
         <br/>
-        <Row>
-            <Col :xs="24" :lg="24">
-            <Page
-                    :total="pageTotal"
-                    :page-size="pageSize"
-                    :page-size-opts="pageSizeOpts"
-                    placement="top"
-                    show-total
-                    show-sizer
-                    show-elevator
-                    @on-change="pageChange"
-                    @on-page-size-change="pageSizeChange">
-            </Page>
-            </Col>
-        </Row>
     </Card>
+
 </template>
 
 <script>
     import util from '../../../libs/util';
     import ajax from '../../../libs/ajax';
     import message from '../../../libs/message';
+    import _ from 'lodash';
 
     export default {
         names: 'managePermissions',
         data () {
             return {
                 loading: false,
-                page: 1,
-                pageSize: 15,
-                pageTotal: 0,
-                pageSizeOpts: [15, 20, 30, 40, 50],
                 updateModal: false,
                 updateModalLoading: false,
                 updateForm: {
@@ -167,21 +150,33 @@
                     },
                     {
                         title: '创建时间',
-                        key: 'created_at',
+                        key: 'createdAt',
                         width: 180,
                         align: 'center',
-                        ellipsis: true
+                        ellipsis: true,
+                        render: (h, params) => {
+                            let index = params.index;
+                            let date = new Date(this.data[index].createdAt*1000);
+                            return h('p', {
+                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                        }
                     },
                     {
                         title: '修改时间',
-                        key: 'updated_at',
+                        key: 'updatedAt',
                         width: 180,
                         align: 'center',
-                        ellipsis: true
+                        ellipsis: true,
+                        render: (h, params) => {
+                            let index = params.index;
+                            let date = new Date(this.data[index].updatedAt*1000);
+                            return h('p', {
+                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                        }
                     },
                     {
                         title: '规则',
-                        key: 'rule_name',
+                        key: 'ruleName',
                         minWidth: 200,
                         align: 'center',
                         ellipsis: true
@@ -213,12 +208,16 @@
                                         click: () => {
                                             this.updateModal = true;
                                             let index = params.index;
+                                            let createdAt = new Date(this.data[index].createdAt*1000);
+                                            let updatedAt = new Date(this.data[index].updatedAt*1000);
+                                            createdAt = createdAt.format("yyyy-MM-dd hh:ii:ss");
+                                            updatedAt = updatedAt.format("yyyy-MM-dd hh:ii:ss");
                                             this.updateForm.name = this.data[index].name;
                                             this.updateForm.description = this.data[index].description;
-                                            this.updateForm.rule_name = this.data[index].rule_name;
+                                            this.updateForm.rule_name = this.data[index].ruleName;
                                             this.updateForm.data = this.data[index].data;
-                                            this.updateForm.created_at = this.data[index].created_at;
-                                            this.updateForm.updated_at = this.data[index].updated_at;
+                                            this.updateForm.created_at = createdAt;
+                                            this.updateForm.updated_at = updatedAt;
                                         }
                                     }
                                 }, '修改'),
@@ -249,30 +248,38 @@
                         }
                     }
                 ],
+                searchSourceData: [],
                 data: [],
                 async: null
             };
         },
         watch: {
-            page: function (newPage, oldPage) {
-                this.getListData();
-            },
-            pageSize: function (newPageSize, oldPageSize) {
-                this.getListData();
-            },
-            'searchForm.name': function (newPageSize, oldPageSize) {
-                this.getListData();
+            'searchForm.name': function (n, o) {
+                this.searchData()(n);
             }
         },
         methods: {
+            searchData () {
+                this.loading = true;
+                return _.debounce((n)=> {
+                    let datas = [];
+                    this.searchSourceData.filter(function (data,k) {
+                        let isset = false
+                        Object.keys(data).some(function (key) {
+                            if (key == "name" || key == "description") {
+                                if (!isset && (String(data[key]).toLowerCase().indexOf(n) > -1)) {
+                                    datas.push(data);
+                                    isset = true;
+                                    }
+                                }
+                            });
+                    })
+                    this.data = datas;
+                    this.loading = false;
+                },500);
+            },
             visibleChange () {
                 this.updateFormError = null;
-            },
-            pageChange (index) {
-                this.page = index;
-            },
-            pageSizeChange (index) {
-                this.pageSize = index;
             },
             update (name) {
                 this.$refs[name].validate((valid) => {
@@ -292,12 +299,11 @@
                 this.async = setTimeout(() => {
                     // 添加响应拦截器
                     (new ajax()).send(this,'/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
-                        'type': 2,
-                        'name': this.searchForm.name
+                        'type': 2
                     }).then((response) => {
                         var data = response.data;
-                        this.data = data.data.items;
-                        this.pageTotal = +data.data._meta.totalCount;
+                        this.data = data.data;
+                        this.searchSourceData = this.data;
                         this.loading = false;
                     }).catch((error) => {
                         this.loading = false;

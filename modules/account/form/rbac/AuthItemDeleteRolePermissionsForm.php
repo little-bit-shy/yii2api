@@ -37,8 +37,6 @@ class AuthItemDeleteRolePermissionsForm extends Model
             [['name', 'role'], 'required', 'on' => 'delete-role-permissions'],
             [['name', 'role'], 'trim', 'on' => 'delete-role-permissions'],
             [['name', 'role'], 'string', 'on' => 'delete-role-permissions'],
-            [['name'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['name' => 'name'], 'filter' => ['type' => 2], 'on' => 'delete-role-permissions'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'delete-role-permissions'],
             [['name'], 'validateNameAndRole', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'delete-role-permissions']
@@ -66,9 +64,11 @@ class AuthItemDeleteRolePermissionsForm extends Model
      */
     public function validateNameAndRole($attribute, $params)
     {
-        // 是否已存在该数据
-        $authItemChild = AuthItemChild::exists($this->role, $this->name);
-        if (!$authItemChild) {
+        $auth = Yii::$app->getAuthManager();
+        $permission = $auth->getPermission($this->name);
+        $role = $auth->getRole($this->role);
+        // 确认关系是否存在
+        if($auth->hasChild($role, $permission) == false){
             $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
@@ -108,14 +108,9 @@ class AuthItemDeleteRolePermissionsForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemDeleteRolePermissionsForm->getAttributes();
-            // 顺便清除缓存依赖对应的子数据
-            (new AuthItem())->tagDependencyInvalidate();
-            (new AuthItemChild())->tagDependencyInvalidate();
-            (new AuthAssignment())->tagDependencyInvalidate();
-            (new AuthRule())->tagDependencyInvalidate();
 
             $auth = Yii::$app->getAuthManager();
-            $permission = $auth->createRole($attributes['name']);
+            $permission = $auth->createPermission($attributes['name']);
             $role = $auth->createRole($attributes['role']);
             if ($auth->removeChild($role, $permission)) {
                 throw new HttpException(200, Yii::t('app/success', 'data delete successfully'));

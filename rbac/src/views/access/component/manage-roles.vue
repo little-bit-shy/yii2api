@@ -194,22 +194,6 @@
             </Col>
         </Row>
         <br/>
-        <Row>
-            <Col :xs="24" :lg="24">
-            <Page
-                    :total="pageTotal"
-                    :page-size="pageSize"
-                    :page-size-opts="pageSizeOpts"
-                    placement="top"
-                    show-total
-                    show-sizer
-                    show-elevator
-                    @on-change="pageChange"
-                    @on-page-size-change="pageSizeChange">
-            </Page>
-            </Col>
-        </Row>
-
     </Card>
 </template>
 
@@ -219,6 +203,7 @@
     import message from '../../../libs/message';
     import allListsWithLevel from './all-lists-with-level';
     import allRoleWithRole from './all-role-with-role';
+    import _ from 'lodash';
 
     export default {
         components: {allListsWithLevel,allRoleWithRole},
@@ -226,10 +211,6 @@
         data () {
             return {
                 loading: false,
-                page: 1,
-                pageSize: 15,
-                pageTotal: 0,
-                pageSizeOpts: [15, 20, 30, 40, 50],
                 updateModal: false,
                 updateModalLoading: false,
                 updateForm: {
@@ -296,17 +277,29 @@
                     },
                     {
                         title: '创建时间',
-                        key: 'created_at',
+                        key: 'createdAt',
                         width: 180,
                         align: 'center',
-                        ellipsis: true
+                        ellipsis: true,
+                        render: (h, params) => {
+                            let index = params.index;
+                            let date = new Date(this.data[index].createdAt*1000);
+                            return h('p', {
+                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                        }
                     },
                     {
                         title: '修改时间',
-                        key: 'updated_at',
+                        key: 'updatedAt',
                         width: 180,
                         align: 'center',
-                        ellipsis: true
+                        ellipsis: true,
+                        render: (h, params) => {
+                            let index = params.index;
+                            let date = new Date(this.data[index].updatedAt*1000);
+                            return h('p', {
+                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                        }
                     },
                     {
                         title: '额外数据',
@@ -317,7 +310,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 200,
+                        width: 230,
                         align: 'center',
                         ellipsis: true,
                         render: (h, params) => {
@@ -402,23 +395,37 @@
                         }
                     }
                 ],
+                searchSourceData: [],
                 data: [],
                 async: null,
                 role: null
             };
         },
         watch: {
-            page: function (newPage, oldPage) {
-                this.getListData();
-            },
-            pageSize: function (newPageSize, oldPageSize) {
-                this.getListData();
-            },
-            'searchForm.name': function (newPageSize, oldPageSize) {
-                this.getListData();
+            'searchForm.name': function (n, o) {
+                this.searchData()(n);
             }
         },
         methods: {
+            searchData () {
+                this.loading = true;
+                return _.debounce((n)=> {
+                    let datas = [];
+                    this.searchSourceData.filter(function (data,k) {
+                        let isset = false
+                        Object.keys(data).some(function (key) {
+                            if (key == "name" || key == "description") {
+                                if (!isset && (String(data[key]).toLowerCase().indexOf(n) > -1)) {
+                                    datas.push(data);
+                                    isset = true;
+                                }
+                            }
+                        });
+                    })
+                    this.data = datas;
+                    this.loading = false;
+                },500);
+            },
             visibleChange () {
                 this.updateFormError = null;
                 this.addFormError = null;
@@ -455,10 +462,10 @@
                 this.async = setTimeout(() => {
                     (new ajax()).send(this,'/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
                         'type': 1,
-                        'name': this.searchForm.name
                     }).then((response) => {
                         var data = response.data;
-                        this.data = data.data.items;
+                        this.data = data.data;
+                        this.searchSourceData = this.data;
                         this.pageTotal = +data.data._meta.totalCount;
                         this.loading = false;
                     }).catch((error) => {

@@ -40,8 +40,6 @@ class AuthItemAddUserRoleForm extends Model
             [['role'], 'trim', 'on' => 'add-user-role'],
             [['user_id'], 'integer', 'on' => 'add-user-role'],
             [['role'], 'string', 'on' => 'add-user-role'],
-            [['user_id'], 'exist', 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'tenant_id'], 'on' => 'add-user-role'],
-            [['role'], 'exist', 'targetClass' => AuthItem::className(), 'targetAttribute' => ['role' => 'name'], 'filter' => ['type' => 1], 'on' => 'add-user-role'],
             [['user_id'], 'validateUserIdAndRole', 'when' => function($model){
                 return !$model->hasErrors();
             } , 'on' => 'add-user-role']
@@ -69,9 +67,15 @@ class AuthItemAddUserRoleForm extends Model
      */
     public function validateUserIdAndRole($attribute, $params)
     {
-        // 是否已存在该数据
-        $authAssignment = AuthAssignment::exists($this->user_id, $this->role);
-        if ($authAssignment) {
+        $auth = Yii::$app->getAuthManager();
+        $role = $auth->getRole($this->role);
+
+        if(empty($role)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
+            return;
+        }
+        $roles = $auth->getAssignments($this->user_id);
+        if(isset($roles[$this->role])){
             $this->addError($attribute, Yii::t('app/error', 'the data exist'));
             return;
         }
@@ -111,10 +115,6 @@ class AuthItemAddUserRoleForm extends Model
             // 数据合法
             // 过滤后的合法数据
             $attributes = $authItemAddUserRoleForm->getAttributes();
-
-            // 单独清除一下用户权限依赖
-            TagDependency::invalidate(AuthAssignment::getTagCache(), [AuthAssignment::getUserDataTag($attributes['user_id'])]);
-
             $auth = Yii::$app->getAuthManager();
             $role = $auth->createRole($attributes['role']);
             if ($auth->assign($role, $attributes['user_id'])) {

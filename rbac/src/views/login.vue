@@ -19,7 +19,7 @@
                                 </Input>
                             </FormItem>
                             <FormItem prop="password">
-                                <Input type="password" v-model="form.password" icon="ios-locked-outline" placeholder="请输入密码">
+                                <Input type="password" v-model="form.password" icon="ios-lock-outline" placeholder="请输入密码">
                                 </Input>
                             </FormItem>
                             <FormItem prop="captcha" style="">
@@ -28,7 +28,7 @@
                                     <captcha :reload="captcha"></captcha>
                                     </Col>
                                     <Col span="12">
-                                    <Input v-model="form.captcha" placeholder="请输入验证码">
+                                    <Input v-model="form.captcha" icon="ios-key-outline" placeholder="请输入验证码">
                                     </Input>
                                     </Col>
                                 </Row>
