@@ -12,6 +12,8 @@ namespace account\controllers;
 use account\form\rbac\AuthItemAddRoleRoleForm;
 use account\form\rbac\AuthItemAllRoleWithRoleForm;
 use account\form\rbac\AuthItemDeleteRoleRoleForm;
+use account\form\rbac\AuthItemRemoveRoleForm;
+use account\form\rbac\AuthItemUpdateRoleForm;
 use app\components\AppRoutes;
 use account\form\rbac\AuthItemAddPermissionsForm;
 use account\form\rbac\AuthItemAddRoleForm;
@@ -62,6 +64,8 @@ class AuthItemController extends Controller
             'all-lists-with-level' => ['POST'],
             'all-lists-with-role' => ['POST'],
             'add-role' => ['POST'],
+            'update-role' => ['POST'],
+            'remove-role' => ['POST'],
             'add-role-permissions' => ['POST'],
             'delete-role-permissions' => ['POST'],
             'user-lists' => ['POST'],
@@ -164,6 +168,26 @@ class AuthItemController extends Controller
     public function actionAddRole()
     {
         return AuthItemAddRoleForm::addRole($this->getParams());
+    }
+
+    /**
+     * 修改角色
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionUpdateRole()
+    {
+        return AuthItemUpdateRoleForm::updateRole($this->getParams());
+    }
+
+    /**
+     * 删除角色
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionRemoveRole()
+    {
+        return AuthItemRemoveRoleForm::removeRole($this->getParams());
     }
 
     /**

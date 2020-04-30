@@ -16,10 +16,10 @@ use yii\web\HttpException;
 
 /**
  * 表单模型
- * Class AuthItemRemovePermissionsForm
+ * Class AuthItemRemoveRoleForm
  * @package account\form\rbac
  */
-class AuthItemRemovePermissionsForm extends Model
+class AuthItemRemoveRoleForm extends Model
 {
     public $name;
 
@@ -30,13 +30,13 @@ class AuthItemRemovePermissionsForm extends Model
     public function rules()
     {
         return [
-            [['name'], 'safe', 'on' => 'remove-permissions'],
-            [['name'], 'required', 'on' => 'remove-permissions'],
-            [['name'], 'trim', 'on' => 'remove-permissions'],
-            [['name'], 'string', 'on' => 'remove-permissions'],
+            [['name'], 'safe', 'on' => 'remove-role'],
+            [['name'], 'required', 'on' => 'remove-role'],
+            [['name'], 'trim', 'on' => 'remove-role'],
+            [['name'], 'string', 'on' => 'remove-role'],
             [['name'], 'validateName', 'when' => function($model){
                 return !$model->hasErrors();
-            } , 'on' => 'remove-permissions'],
+            } , 'on' => 'remove-role'],
         ];
     }
 
@@ -47,16 +47,10 @@ class AuthItemRemovePermissionsForm extends Model
      */
     public function validateName($attribute, $params)
     {
-        $appRoutes = (new AppRoutes())->getAppRoutes();
-        if (!ArrayHelper::isIn($this->$attribute, $appRoutes)) {
-            $this->addError($attribute, Yii::t('app/error', 'permissions name error'));
-            return;
-        }
-
         $auth = Yii::$app->getAuthManager();
-        // 权限是否存在
-        $permission = $auth->getPermission($this->name);
-        if(empty($permission)){
+        // 角色是否存在
+        $role = $auth->getRole($this->name);
+        if(empty($role)){
             $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
@@ -69,7 +63,7 @@ class AuthItemRemovePermissionsForm extends Model
     public function scenarios()
     {
         return [
-            'remove-permissions' => [
+            'remove-role' => [
                 'name',
             ]
         ];
@@ -91,33 +85,33 @@ class AuthItemRemovePermissionsForm extends Model
     /***************************** 获取数据 *********************************/
 
     /**
-     * 删除权限
+     * 删除角色
      * @param $param
      * @throws HttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public static function removePermissions($param)
+    public static function removeRole($param)
     {
         // 表单模型实例化
-        $authItemRemovePermissionsForm = new AuthItemRemovePermissionsForm();
+        $authItemRemoveRoleForm = new AuthItemRemoveRoleForm();
         // 场景定义
-        $authItemRemovePermissionsForm->setScenario('remove-permissions');
+        $authItemRemoveRoleForm->setScenario('remove-role');
         // 验证数据是否合法
-        if ($authItemRemovePermissionsForm->load([$authItemRemovePermissionsForm->formName() => $param]) && $authItemRemovePermissionsForm->validate()) {
+        if ($authItemRemoveRoleForm->load([$authItemRemoveRoleForm->formName() => $param]) && $authItemRemoveRoleForm->validate()) {
             // 数据合法
             // 过滤后的合法数据
-            $attributes = $authItemRemovePermissionsForm->getAttributes();
+            $attributes = $authItemRemoveRoleForm->getAttributes();
 
             $auth = Yii::$app->getAuthManager();
-            $permission = $auth->createPermission($attributes['name']);
-            if ($auth->remove($permission)) {
+            $role = $auth->createRole($attributes['name']);
+            if ($auth->remove($role)) {
                 throw new HttpException(200, Yii::t('app/success', 'data delete successfully'));
             } else {
                 throw new HttpException(500, Yii::t('app/error', 'server internal error'));
             }
         } else {
             // 数据不合法
-            throw new HttpException(422, $authItemRemovePermissionsForm->getFirstError());
+            throw new HttpException(422, $authItemRemoveRoleForm->getFirstError());
         }
     }
 

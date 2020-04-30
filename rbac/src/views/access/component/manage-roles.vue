@@ -476,7 +476,7 @@
             updateData () {
                 this.updateModalLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/update-permissions', {
+                    (new ajax()).send(this,'/account/auth-item/update-role', {
                         'name': this.updateForm.name,
                         'description': this.updateForm.description,
                         'rule_name': this.updateForm.rule_name === '' ? null : this.updateForm.rule_name,
@@ -531,7 +531,7 @@
                 }, 1000);
             },
             deleteData (permissions) {
-                (new ajax()).send(this,'/account/auth-item/remove-permissions', {
+                (new ajax()).send(this,'/account/auth-item/remove-role', {
                     'name': permissions
                 }).then((response) => {
                     var data = response.data;
