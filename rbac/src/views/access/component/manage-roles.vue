@@ -413,9 +413,12 @@
             }
         },
         methods: {
-            searchData () {
+            searchData (time = 500) {
                 this.loading = true;
                 return _.debounce((n)=> {
+                    if (n==null) {
+                        return;
+                    }
                     let datas = [];
                     this.searchSourceData.filter(function (data,k) {
                         let isset = false
@@ -430,7 +433,7 @@
                     })
                     this.data = datas;
                     this.loading = false;
-                },500);
+                },time);
             },
             visibleChange () {
                 this.updateFormError = null;
@@ -472,7 +475,7 @@
                         var data = response.data;
                         this.data = data.data;
                         this.searchSourceData = this.data;
-                        this.pageTotal = +data.data._meta.totalCount;
+                        this.searchData(1)(this.searchForm.name);
                         this.loading = false;
                     }).catch((error) => {
                         this.loading = false;
