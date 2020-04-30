@@ -6,7 +6,7 @@
  * Time: 10:56
  */
 
-namespace account\form\rbac;
+namespace account\form\user;
 
 use account\form\Model;
 use account\models\User;
@@ -15,10 +15,10 @@ use yii\web\HttpException;
 
 /**
  * 表单模型
- * Class AuthItemResetPswUserForm
+ * Class ResetPswForm
  * @package account\form\rbac
  */
-class AuthItemResetPswUserForm extends Model
+class ResetPswForm extends Model
 {
     /** @var User $_user 保存用户数据容器，避免多次查询 */
     private static $_user = null;
@@ -99,17 +99,17 @@ class AuthItemResetPswUserForm extends Model
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public static function resetPswUser($param)
+    public static function resetPsw($param)
     {
         // 表单模型实例化
-        $authItemResetPswUserForm = new AuthItemResetPswUserForm();
+        $resetPswForm = new ResetPswForm();
         // 场景定义
-        $authItemResetPswUserForm->setScenario('reset-psw');
+        $resetPswForm->setScenario('reset-psw');
         // 验证数据是否合法
-        if ($authItemResetPswUserForm->load([$authItemResetPswUserForm->formName() => $param]) && $authItemResetPswUserForm->validate()) {
+        if ($resetPswForm->load([$resetPswForm->formName() => $param]) && $resetPswForm->validate()) {
             // 数据合法
             // 过滤后的合法数据
-            $attributes = $authItemResetPswUserForm->getAttributes();
+            $attributes = $resetPswForm->getAttributes();
             // 添加用户
             if (User::ResetPsw(Yii::$app->getUser()->getId(), $attributes['password_new'])) {
                 throw new HttpException(200, Yii::t('app/success', 'password reset successfully'));
@@ -118,7 +118,7 @@ class AuthItemResetPswUserForm extends Model
             }
         } else {
             // 数据不合法
-            throw new HttpException(422, $authItemResetPswUserForm->getFirstError());
+            throw new HttpException(422, $resetPswForm->getFirstError());
         }
     }
 
@@ -135,7 +135,7 @@ class AuthItemResetPswUserForm extends Model
     private function getUser($id, $ignoreExistingData = false)
     {
         if (empty(static::$_user) || $ignoreExistingData === true) {
-            static::$_user = User::findIdentityById($id);
+            static::$_user = \app\models\User::findIdentityById($id);
         }
         return static::$_user;
     }

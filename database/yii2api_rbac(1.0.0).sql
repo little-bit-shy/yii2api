@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 30/04/2020 17:35:38
+ Date: 30/04/2020 17:56:50
 */
 
 SET NAMES utf8mb4;
@@ -77,7 +77,6 @@ INSERT INTO `y_auth_item` VALUES ('/account/auth-item/index', 2, '权限、角�
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/project-directory', 2, '项目所有操作', NULL, NULL, 1588151920, 1588152580);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/remove-permissions', 2, '删除权限', NULL, NULL, 1588151920, 1588152590);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/remove-role', 2, '删除角色', NULL, NULL, 1588239170, 1588239185);
-INSERT INTO `y_auth_item` VALUES ('/account/auth-item/reset-psw-user', 2, '重置账号密码', NULL, NULL, 1588151920, 1588152606);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/update-permissions', 2, '修改权限', NULL, NULL, 1588151920, 1588152626);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/update-role', 2, '修改角色', NULL, NULL, 1588238708, 1588238722);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/user-lists', 2, '账号列表', NULL, NULL, 1588151920, 1588152635);
@@ -88,10 +87,10 @@ INSERT INTO `y_auth_item` VALUES ('/account/site/forget', 2, '忘记密码', NUL
 INSERT INTO `y_auth_item` VALUES ('/account/site/login', 2, '账号登录', NULL, NULL, 1588151921, 1588152711);
 INSERT INTO `y_auth_item` VALUES ('/account/site/logout', 2, '账号登出', NULL, NULL, 1588151921, 1588152724);
 INSERT INTO `y_auth_item` VALUES ('/account/site/registered', 2, '账号注册', NULL, NULL, 1588151921, 1588227650);
+INSERT INTO `y_auth_item` VALUES ('/account/site/reset-psw', 2, '重置账号密码', NULL, NULL, 1588240513, 1588240523);
 INSERT INTO `y_auth_item` VALUES ('/account/site/sms-code', 2, '发送手机验证码', NULL, NULL, 1588151921, 1588152754);
 INSERT INTO `y_auth_item` VALUES ('/account/site/tenant-info', 2, '账号信息', NULL, NULL, 1588151921, 1588152764);
 INSERT INTO `y_auth_item` VALUES ('/account/site/update', 2, '账号信息修改', NULL, NULL, 1588151921, 1588152778);
-INSERT INTO `y_auth_item` VALUES ('213214', 1, NULL, NULL, NULL, 1588239152, 1588239152);
 INSERT INTO `y_auth_item` VALUES ('ordinaryUser', 1, '普通用户', NULL, NULL, 1588152804, 1588238832);
 INSERT INTO `y_auth_item` VALUES ('root', 1, '超级管理员', NULL, NULL, 1588152817, 1588152817);
 
@@ -129,7 +128,6 @@ INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/index');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/project-directory');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/remove-permissions');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/remove-role');
-INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/reset-psw-user');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/update-permissions');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/update-role');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/auth-item/user-lists');
@@ -145,6 +143,8 @@ INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/logout');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/logout');
 INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/registered');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/registered');
+INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/reset-psw');
+INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/reset-psw');
 INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/sms-code');
 INSERT INTO `y_auth_item_child` VALUES ('root', '/account/site/sms-code');
 INSERT INTO `y_auth_item_child` VALUES ('ordinaryUser', '/account/site/tenant-info');

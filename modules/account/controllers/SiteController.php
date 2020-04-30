@@ -11,6 +11,7 @@ namespace account\controllers;
 
 use account\form\user\ForgetForm;
 use account\form\user\RegisteredForm;
+use account\form\user\ResetPswForm;
 use account\form\user\UpdateForm;
 use Yii;
 use account\form\rbac\AllPermissionsForm;
@@ -56,6 +57,7 @@ class SiteController extends Controller
             'tenant-info' => ['GET', 'POST'],
             'all-permissions' => ['GET', 'POST'],
             'update' => ['POST'],
+            'reset-psw' => ['POST'],
         ];
     }
 
@@ -298,16 +300,6 @@ class SiteController extends Controller
     }
 
     /**
-     * 获取当前用户所有的权限
-     * @return mixed
-     * @throws \Throwable
-     */
-    public function actionAllPermissions()
-    {
-        return AllPermissionsForm::allPermissions($this->getParams());
-    }
-
-    /**
      * /**
      * @api {POST} /account/default/update 修改用户信息
      * @apiVersion 1.0.0
@@ -345,4 +337,24 @@ class SiteController extends Controller
         return UpdateForm::update($this->getParams());
     }
 
+    /**
+     * 获取当前用户所有的权限
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function actionAllPermissions()
+    {
+        return AllPermissionsForm::allPermissions($this->getParams());
+    }
+
+    /**
+     * 重置当前用户密码
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionResetPsw()
+    {
+        return ResetPswForm::resetPsw($this->getParams());
+    }
 }

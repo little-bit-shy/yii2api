@@ -47,12 +47,6 @@ class AuthItemRemovePermissionsForm extends Model
      */
     public function validateName($attribute, $params)
     {
-        $appRoutes = (new AppRoutes())->getAppRoutes();
-        if (!ArrayHelper::isIn($this->$attribute, $appRoutes)) {
-            $this->addError($attribute, Yii::t('app/error', 'permissions name error'));
-            return;
-        }
-
         $auth = Yii::$app->getAuthManager();
         // 权限是否存在
         $permission = $auth->getPermission($this->name);
