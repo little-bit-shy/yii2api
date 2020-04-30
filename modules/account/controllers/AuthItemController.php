@@ -18,7 +18,6 @@ use account\form\rbac\AuthItemAddRoleForm;
 use account\form\rbac\AuthItemAddRolePermissionsForm;
 use account\form\rbac\AuthItemAddUserForm;
 use account\form\rbac\AuthItemAddUserRoleForm;
-use account\form\rbac\AuthItemAllListsForm;
 use account\form\rbac\AuthItemAllListsWithLevelForm;
 use account\form\rbac\AuthItemAllListsWithRoleForm;
 use account\form\rbac\AuthItemAllRoleWithUserForm;

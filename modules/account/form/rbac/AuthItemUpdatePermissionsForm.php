@@ -79,8 +79,8 @@ class AuthItemUpdatePermissionsForm extends Model
         $auth = Yii::$app->getAuthManager();
         // 权限是否存在
         $permission = $auth->getPermission($this->name);
-        if(!empty($permission)){
-            $this->addError($attribute, Yii::t('app/error', 'the data exist'));
+        if(empty($permission)){
+            $this->addError($attribute, Yii::t('app/error', 'the data not exist'));
             return;
         }
     }
