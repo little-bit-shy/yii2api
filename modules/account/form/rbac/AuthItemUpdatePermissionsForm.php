@@ -35,7 +35,7 @@ class AuthItemUpdatePermissionsForm extends Model
         return [
             [['name', 'description', 'rule_name', 'data'], 'safe', 'on' => 'update-permissions'],
             [['name', 'description', 'rule_name', 'data'], 'string', 'on' => 'update-permissions'],
-            [['name'], 'required', 'on' => 'update-permissions'],
+            [['name', 'description'], 'required', 'on' => 'update-permissions'],
             [['name'], 'trim', 'on' => 'update-permissions'],
             [['rule_name'], 'validateRuleName', 'when' => function($model){
                 return !$model->hasErrors();
