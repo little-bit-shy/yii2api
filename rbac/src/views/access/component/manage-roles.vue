@@ -5,7 +5,7 @@
 <template>
     <Card>
         <p slot="title">
-            <Icon type="ios-toggle"></Icon>
+            <Icon type="ios-list"></Icon>
             角色列表
         </p>
 
@@ -21,7 +21,7 @@
                 <Form ref="searchForm" :model="searchForm">
                     <FormItem prop="name" label="">
                         <Input type="text" v-model="searchForm.name" placeholder="输入名称...">
-                        <Icon type="ios-search" slot="prepend"></Icon>
+                        <Icon type="ios-list" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                 </Form>
@@ -47,7 +47,7 @@
                         <Col span="8">
                         <FormItem prop="name" label="权限">
                             <Input type="text" v-model="addForm.name" placeholder="输入名称...">
-                            <Icon type="ios-locked" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -55,7 +55,7 @@
                         <Col span="8">
                         <FormItem prop="description" label="简介">
                             <Input type="text" v-model="addForm.description" placeholder="输入简介...">
-                            <Icon type="drag" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -63,7 +63,7 @@
                         <Col span="8">
                         <FormItem prop="rule_name" label="规则">
                             <Input type="text" v-model="addForm.rule_name" placeholder="输入规则...">
-                            <Icon type="android-settings" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -103,7 +103,7 @@
                         <Col span="8">
                         <FormItem prop="name" label="权限">
                             <Input disabled type="text" v-model="updateForm.name" placeholder="输入名称...">
-                            <Icon type="ios-locked" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -111,7 +111,7 @@
                         <Col span="8">
                         <FormItem prop="description" label="简介">
                             <Input type="text" v-model="updateForm.description" placeholder="输入简介...">
-                            <Icon type="drag" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -119,7 +119,7 @@
                         <Col span="8">
                         <FormItem prop="rule_name" label="规则">
                             <Input type="text" v-model="updateForm.rule_name" placeholder="输入规则...">
-                            <Icon type="android-settings" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -127,7 +127,7 @@
                         <Col span="12">
                         <FormItem prop="created_at" label="创建时间">
                             <Input disabled type="text" v-model="updateForm.created_at" placeholder="输入创建时间...">
-                            <Icon type="ios-clock-outline" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -135,7 +135,7 @@
                         <Col span="12">
                         <FormItem prop="updated_at" label="修改时间">
                             <Input disabled type="text" v-model="updateForm.updated_at" placeholder="输入修改时间...">
-                            <Icon type="ios-clock-outline" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -417,7 +417,7 @@
                 this.loading = true;
                 return _.debounce((n)=> {
                     if (n==null) {
-                        return;
+                        n = "";
                     }
                     let datas = [];
                     this.searchSourceData.filter(function (data,k) {
@@ -473,8 +473,7 @@
                         'type': 1,
                     }).then((response) => {
                         var data = response.data;
-                        this.data = data.data;
-                        this.searchSourceData = this.data;
+                        this.searchSourceData = data.data;
                         this.searchData(1)(this.searchForm.name);
                         this.loading = false;
                     }).catch((error) => {

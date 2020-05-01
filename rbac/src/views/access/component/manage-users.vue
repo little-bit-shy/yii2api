@@ -5,7 +5,7 @@
 <template>
     <Card>
         <p slot="title">
-            <Icon type="ios-toggle"></Icon>
+            <Icon type="ios-list"></Icon>
             用户列表
         </p>
 
@@ -38,7 +38,7 @@
                         <Col span="24">
                         <FormItem prop="username" label="用户名称">
                             <Input type="text" v-model="addForm.username" placeholder="输入用户名称...">
-                            <Icon type="person" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -46,7 +46,7 @@
                         <Col span="12">
                         <FormItem prop="mobile" label="手机号">
                             <Input type="text" v-model="addForm.mobile" placeholder="输入手机号...">
-                            <Icon type="iphone" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>
@@ -54,7 +54,7 @@
                         <Col span="12">
                         <FormItem prop="password" label="密码">
                             <Input type="text" v-model="addForm.password" placeholder="输入密码...">
-                            <Icon type="ios-locked" slot="prepend"></Icon>
+                            <Icon type="ios-list" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
                         </Col>

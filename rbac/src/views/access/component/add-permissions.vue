@@ -7,26 +7,34 @@
             margin: 0 auto;
         }
     }
+
+    .spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
 </style>
 
 <template>
     <Card>
         <p slot="title">
-            <Icon type="ios-toggle"></Icon>
+            <Icon type="ios-list"></Icon>
             权限添加
         </p>
 
         <Row>
             <Col :xs="24" :lg="16">
-            <Transfer
-                    :data="data"
-                    :target-keys="targetKeys"
-                    :list-style="listStyle"
-                    :render-format="renderData"
-                    :titles="titles"
-                    filterable
-                    @on-change="handleChange">
-            </Transfer>
+                <Spin class="spin" v-show="this.request_end != 2" fix>
+                    <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+                    <div>数据加载中...</div>
+                </Spin>
+                <Transfer
+                :data="data"
+                :target-keys="targetKeys"
+                :list-style="listStyle"
+                :render-format="renderData"
+                :titles="titles"
+                filterable
+                @on-change="handleChange">
+                </Transfer>
             </Col>
         </Row>
         <Spin v-show="loading == true" size="large" fix></Spin>
@@ -41,6 +49,7 @@
         data () {
             return {
                 loading: false,
+                request_end: 0,
                 data: this.getMockData(),
                 targetKeys: this.getTargetKeys(),
                 listStyle: {
@@ -65,6 +74,8 @@
                         });
                     }
                 }).catch((error) => {
+                }).finally(()=>{
+                   ++this.request_end
                 });
 
                 return mockData;
@@ -80,6 +91,8 @@
                         targetKeys.push(data.data[directory].name);
                     }
                 }).catch((error) => {
+                }).finally(()=>{
+                    ++this.request_end
                 });
 
                 return targetKeys;

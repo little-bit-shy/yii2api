@@ -9,7 +9,7 @@
         <Card :bordered="false" :dis-hover="true">
             <span v-for="(item, key) in (data || dataFirst)">
                 <p slot="title" v-if="item.name && item.children">
-                    <Icon type="android-folder-open"></Icon>
+                    <Icon type="ios-list"></Icon>
                     {{ item.description }}
                 </p>
                 <Checkbox class="check" v-model="check[item.name]" @on-change="onChange($event, item.name)" v-else>
