@@ -22,10 +22,7 @@
 
         <Row>
             <Col :xs="24" :lg="16">
-                <Spin class="spin" v-show="this.request_end != 2" fix>
-                    <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
-                    <div>数据加载中...</div>
-                </Spin>
+                <Spin class="spin" size="large" v-show="this.request_end != 2" fix></Spin>
                 <Transfer
                 :data="data"
                 :target-keys="targetKeys"

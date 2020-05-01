@@ -72,7 +72,7 @@
 
             <Modal
                     class-name="vertical-center-modal"
-                    title="分配角色"
+                    :title="userName"
                     v-model="allotModal"
                     :loading="true"
                     :width="60"
@@ -199,6 +199,7 @@
                                             this.allotModal = true;
                                             let index = params.index;
                                             this.userId = this.data[index].tenant_id;
+                                            this.userName = this.data[index].account;
                                         }
                                     }
                                 }, '分配')
@@ -208,7 +209,8 @@
                 ],
                 data: [],
                 async: null,
-                userId: null
+                userId: null,
+                userName: null,
             };
         },
         watch: {
