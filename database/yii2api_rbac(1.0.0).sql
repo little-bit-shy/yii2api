@@ -11,7 +11,7 @@
  Target Server Version : 50645
  File Encoding         : 65001
 
- Date: 01/05/2020 21:19:58
+ Date: 02/05/2020 02:37:27
 */
 
 SET NAMES utf8mb4;
@@ -56,7 +56,7 @@ CREATE TABLE `y_auth_item`  (
 -- ----------------------------
 -- Records of y_auth_item
 -- ----------------------------
-INSERT INTO `y_auth_item` VALUES ('/*', 2, '全部', NULL, NULL, 1588151919, 1588331277);
+INSERT INTO `y_auth_item` VALUES ('/*', 2, '全部', NULL, NULL, 1588151919, 1588358218);
 INSERT INTO `y_auth_item` VALUES ('/account/*', 2, '账号中心', NULL, NULL, 1588330292, 1588330309);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/*', 2, '权限管理', NULL, NULL, 1588151920, 1588152138);
 INSERT INTO `y_auth_item` VALUES ('/account/auth-item/add-permissions', 2, '添加权限', NULL, NULL, 1588151920, 1588152147);
