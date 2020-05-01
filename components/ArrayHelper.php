@@ -159,9 +159,9 @@ class ArrayHelper extends BaseArrayHelper
      * @param $array2
      * @return array
      */
-    public static function diff($array1 ,$array2)
+    public static function diff($array1, $array2)
     {
-        return array_diff($array1,$array2);
+        return array_diff($array1, $array2);
     }
 
 
@@ -170,7 +170,8 @@ class ArrayHelper extends BaseArrayHelper
      * @param $array
      * @return float|int
      */
-    public static function sum($array){
+    public static function sum($array)
+    {
         return array_sum($array);
     }
 
@@ -194,4 +195,13 @@ class ArrayHelper extends BaseArrayHelper
         return key($var);
     }
 
+    /**
+     * 数组入栈
+     * @param $arr
+     * @param $val
+     */
+    public static function push(&$arr, $val)
+    {
+        array_push($arr, $val);
+    }
 }

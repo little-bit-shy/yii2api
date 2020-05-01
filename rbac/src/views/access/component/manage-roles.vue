@@ -159,7 +159,7 @@
 
             <Modal
                     class-name="vertical-center-modal"
-                    title="分配权限"
+                    :title="roleName"
                     v-model="allotModal"
                     :loading="true"
                     :width="60"
@@ -177,7 +177,7 @@
 
             <Modal
                     class-name="vertical-center-modal"
-                    title="分配角色"
+                    :title="roleName"
                     v-model="roleModal"
                     :loading="true"
                     :width="60"
@@ -201,7 +201,7 @@
     import util from '../../../libs/util';
     import ajax from '../../../libs/ajax';
     import message from '../../../libs/message';
-    import allListsWithLevel from './all-lists-with-level';
+    import allListsWithLevel from './all-lists-with-level-role';
     import allRoleWithRole from './all-role-with-role';
     import _ from 'lodash';
 
@@ -334,6 +334,7 @@
                                             this.allotModal = true;
                                             let index = params.index;
                                             this.role = this.data[index].name;
+                                            this.roleName = this.data[index].description;
                                         }
                                     }
                                 }, '权限'),
@@ -350,6 +351,7 @@
                                             this.roleModal = true;
                                             let index = params.index;
                                             this.role = this.data[index].name;
+                                            this.roleName = this.data[index].description;
                                         }
                                     }
                                 }, '角色'),
@@ -404,7 +406,8 @@
                 searchSourceData: [],
                 data: [],
                 async: null,
-                role: null
+                role: null,
+                roleName: null,
             };
         },
         watch: {

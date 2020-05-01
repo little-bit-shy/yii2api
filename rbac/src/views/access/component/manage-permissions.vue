@@ -98,6 +98,24 @@
                     <Button type="error" size="large" @click="updateModal = false">关闭</Button>
                 </div>
             </Modal>
+
+            <Modal
+                    class-name="vertical-center-modal"
+                    :title="permissionsName"
+                    v-model="allotModal"
+                    :loading="true"
+                    :width="60"
+                    :closable="true">
+                <div style="overflow: hidden;">
+                    <div style="height:500px;overflow: auto;margin-right: -50px;
+    padding-right: 50px;">
+                        <allListsWithLevel :permissionsName="permissions"
+                                           v-if="allotModal"></allListsWithLevel>
+                    </div>
+                </div>
+                <div slot="footer">
+                </div>
+            </Modal>
             </Col>
         </Row>
         <br/>
@@ -110,9 +128,11 @@
     import ajax from '../../../libs/ajax';
     import message from '../../../libs/message';
     import _ from 'lodash';
+    import allListsWithLevel from './all-lists-with-level-permissions';
 
     export default {
         names: 'managePermissions',
+        components: {allListsWithLevel},
         data () {
             return {
                 loading: false,
@@ -132,6 +152,12 @@
                         {required: true, message: '权限不能为空', trigger: 'blur'}
                     ]
                 },
+                allotModal: false,
+                allotModalLoading: false,
+                allotData: null,
+                allotForm: null,
+                allotFormError: null,
+                allotFormRule: {},
                 searchForm: {
                     name: null,
                 },
@@ -191,11 +217,28 @@
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 180,
                         align: 'center',
                         ellipsis: true,
                         render: (h, params) => {
                             return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'info',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.allotModal = true;
+                                            let index = params.index;
+                                            this.permissions = this.data[index].name;
+                                            this.permissionsName = this.data[index].description;
+                                        }
+                                    }
+                                }, '权限'),
                                 h('Button', {
                                     props: {
                                         type: 'success',
@@ -250,7 +293,9 @@
                 ],
                 searchSourceData: [],
                 data: [],
-                async: null
+                async: null,
+                permissions: null,
+                permissionsName: null,
             };
         },
         watch: {

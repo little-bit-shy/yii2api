@@ -9,8 +9,11 @@
 
 namespace account\controllers;
 
+use account\form\rbac\AuthItemAddPermissionsPermissionsForm;
 use account\form\rbac\AuthItemAddRoleRoleForm;
+use account\form\rbac\AuthItemAllListWithPermissionsForm;
 use account\form\rbac\AuthItemAllRoleWithRoleForm;
+use account\form\rbac\AuthItemDeletePermissionsPermissionsForm;
 use account\form\rbac\AuthItemDeleteRoleRoleForm;
 use account\form\rbac\AuthItemRemoveRoleForm;
 use account\form\rbac\AuthItemUpdateRoleForm;
@@ -54,25 +57,28 @@ class AuthItemController extends Controller
     protected function verbs()
     {
         return [
-            'index' => ['POST'],
-            'all-lists' => ['POST'],
-            'project-directory' => ['POST'],
+            'index' => ['GET', 'POST'],
+            'all-lists' => ['GET', 'POST'],
+            'project-directory' => ['GET', 'POST'],
             'add-permissions' => ['POST'],
             'remove-permissions' => ['POST'],
             'update-permissions' => ['POST'],
-            'all-lists-with-level' => ['POST'],
-            'all-lists-with-role' => ['POST'],
+            'all-lists-with-level' => ['GET', 'POST'],
+            'all-lists-with-role' => ['GET', 'POST'],
+            'all-lists-with-permissions' => ['GET', 'POST'],
             'add-role' => ['POST'],
             'update-role' => ['POST'],
             'remove-role' => ['POST'],
             'add-role-permissions' => ['POST'],
             'delete-role-permissions' => ['POST'],
-            'user-lists' => ['POST'],
+            'add-permissions-permissions' => ['POST'],
+            'delete-permissions-permissions' => ['POST'],
+            'user-lists' => ['GET', 'POST'],
             'add-user-role' => ['POST'],
             'delete-user-role' => ['POST'],
-            'all-role-with-user' => ['POST'],
+            'all-role-with-user' => ['GET', 'POST'],
             'add-user' => ['POST'],
-            'all-role-with-role' => ['POST'],
+            'all-role-with-role' => ['GET', 'POST'],
             'add-role-role' => ['POST'],
             'delete-role-role' => ['POST'],
         ];
@@ -158,6 +164,19 @@ class AuthItemController extends Controller
     }
 
     /**
+     * 返回权限下的所有权限列表数据
+     * @return mixed
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionAllListsWithPermissions()
+    {
+        return AuthItemAllListWithPermissionsForm::allListsWithPermissions($this->getParams());
+    }
+
+    /**
      * 添加角色
      * @throws \Exception
      * @throws \yii\base\InvalidConfigException
@@ -209,6 +228,29 @@ class AuthItemController extends Controller
     public function actionDeleteRolePermissions()
     {
         return AuthItemDeleteRolePermissionsForm::deleteRolePermissions($this->getParams());
+    }
+
+    /**
+     * 为权限添加的权限
+     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     */
+    public function actionAddPermissionsPermissions()
+    {
+        return AuthItemAddPermissionsPermissionsForm::addPermissionsPermissions($this->getParams());
+    }
+
+    /**
+     * 为权限删除权限
+     * @throws \Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\HttpException
+     *
+     */
+    public function actionDeletePermissionsPermissions()
+    {
+        return AuthItemDeletePermissionsPermissionsForm::deletePermissionsPermissions($this->getParams());
     }
 
     /**

@@ -48,4 +48,6 @@ return [
     'start_at' => '开始时间',
     'end_at' => '结束时间',
     'verify_code' => '验证码',
+    'permissions' => '权限',
+    'child_permissions' => '子权限',
 ];

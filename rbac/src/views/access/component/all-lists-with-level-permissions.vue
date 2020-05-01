@@ -8,17 +8,13 @@
     <div>
         <Card :bordered="false" :dis-hover="true">
             <span v-for="(item, key) in (data || dataFirst)">
-                <p slot="title" v-if="item.name && item.children">
-                    <Icon type="ios-list"></Icon>
-                    {{ item.description }}
-                </p>
-                <Checkbox class="check" v-model="check[item.name]" @on-change="onChange($event, item.name)" v-else>
-                    {{ item.description|ellipsis(10) }}
+                <Checkbox class="check" v-model="check[item.name]" @on-change="onChange($event, item.name)">
+                    {{ item.description|ellipsis(8) }}
                 </Checkbox>
 
-                <allListsWithLevel v-if="item.children && (roleFirst || role)"
-                                   :roleName="roleName"
-                                   :role="role || roleFirst"
+                <allListsWithLevel v-if="item.children && (permissionsFirst || permissions)"
+                                   :permissionsName="permissionsName"
+                                   :permissions="permissions || permissionsFirst"
                                    :data="item.children">
                 </allListsWithLevel>
             </span>
@@ -33,13 +29,13 @@
         name: "allListsWithLevel",
         props: {
             data: null,
-            role: null,
-            roleName: null,
+            permissions: null,
+            permissionsName: null,
         },
         data() {
             return {
                 dataFirst: null,
-                roleFirst: null,
+                permissionsFirst: null,
                 check: {}
             }
         },
@@ -76,17 +72,17 @@
                     }, timeout);
                 })
             },
-            getAllPermissionsWithRoleData(timeout = 1) {
+            getAllPermissionsWithPermissionsData(timeout = 1) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
-                        if (this.role) {
+                        if (this.permissions) {
                             return resolve();
                         }
-                        (new ajax()).send(this,'/account/auth-item/all-lists-with-role', {
-                            'name': this.roleName
+                        (new ajax()).send(this,'/account/auth-item/all-lists-with-permissions', {
+                            'name': this.permissionsName
                         }).then((response) => {
                             var data = response.data;
-                            this.roleFirst = data.data;
+                            this.permissionsFirst = data.data;
                         }).catch((error) => {
                         }).finally(() => {
                             resolve();
@@ -102,34 +98,36 @@
                 for (let key in this.dataFirst) {
                     this.$set(this.check, this.dataFirst[key].name, false);
                 }
-                await this.getAllPermissionsWithRoleData();
-                for (let key in this.roleFirst) {
-                    this.$set(this.check, this.roleFirst[key].name, true);
+                await this.getAllPermissionsWithPermissionsData();
+                for (let key in this.permissionsFirst) {
+                    this.$set(this.check, this.permissionsFirst[key].name, true);
                 }
-                for (let key in this.role) {
-                    this.$set(this.check, this.role[key].name, true);
+                for (let key in this.permissions) {
+                    this.$set(this.check, this.permissions[key].name, true);
                 }
             },
             onChange(type, name) {
                 switch (type) {
                     case true:
-                        (new ajax()).send(this,'/account/auth-item/add-role-permissions', {
-                            'name': name,
-                            'role': this.roleName,
+                        (new ajax()).send(this,'/account/auth-item/add-permissions-permissions', {
+                            'permissions': this.permissionsName,
+                            'child_permissions': name,
                         }).then((response) => {
                             var data = response.data;
                             message.success(data.data.message);
                         }).catch((error) => {
+                        }).finally(()=>{
                         })
                         break;
                     case false:
-                        (new ajax()).send(this,'/account/auth-item/delete-role-permissions', {
-                            'name': name,
-                            'role': this.roleName,
+                        (new ajax()).send(this,'/account/auth-item/delete-permissions-permissions', {
+                            'permissions': this.permissionsName,
+                            'child_permissions': name,
                         }).then((response) => {
                             var data = response.data;
                             message.success(data.data.message);
                         }).catch((error) => {
+                        }).finally(()=>{
                         })
                         break;
                 }
