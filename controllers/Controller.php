@@ -46,18 +46,12 @@ class Controller extends \yii\rest\Controller
      */
     public function behaviors()
     {
+        $config = Yii::$app->params;
         $behaviors = ArrayHelper::merge([
             //开启Cors跨域
             'corsFilter' => [
                 'class' => Cors::className(),
-                'cors' => [
-                    'Origin' => ['http://127.0.0.1:8080'],
-                    'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-                    'Access-Control-Request-Headers' => ['*'],
-                    'Access-Control-Allow-Credentials' => true,
-                    'Access-Control-Max-Age' => 86400,
-                    'Access-Control-Expose-Headers' => [],
-                ]
+                'cors' => $config['cors']
             ]
         ], parent::behaviors());
 

@@ -49,6 +49,8 @@ yii2-rest
 │  ├─i18n.php
 │  ├─# 日志配置（这里对记录数据做了格式化处理）
 │  ├─log.php
+│  ├─# 跨域Cors配置
+│  ├─cors.php
 │  ├─# 模块配置
 │  ├─modules.php
 │  ├─# 扩展配置
