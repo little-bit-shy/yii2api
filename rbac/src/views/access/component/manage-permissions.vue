@@ -11,22 +11,13 @@
 
         <Row style="margin-bottom: 10px">
             <Col span="24">
-                <Button type="success" @click="getListData()">重新加载</Button>
+            <Button type="success" @click="getListData()">重新加载</Button>
             </Col>
         </Row>
 
         <Row>
-            <Col span="6">
-                <Form ref="searchForm" :model="searchForm">
-                    <FormItem prop="name" label="">
-                        <Input type="text" v-model="searchForm.name" placeholder="输入名称...">
-                        <Icon type="ios-list" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                </Form>
-            </Col>
             <Col span="24">
-            <Table border size="small" :loading="loading" :columns="columns" :data="data"></Table>
+            <Table border row-key="name" size="small" :loading="loading" :columns="columns" :data="data" height="700"></Table>
             <Modal
                     class-name="vertical-center-modal"
                     title="修改数据"
@@ -133,7 +124,7 @@
     export default {
         names: 'managePermissions',
         components: {allListsWithLevel},
-        data () {
+        data() {
             return {
                 loading: false,
                 updateModal: false,
@@ -158,15 +149,13 @@
                 allotForm: null,
                 allotFormError: null,
                 allotFormRule: {},
-                searchForm: {
-                    name: null
-                },
                 columns: [
                     {
                         title: '名称',
                         key: 'name',
                         minWidth: 180,
-                        ellipsis: true
+                        ellipsis: true,
+                        tree: true
                     },
                     {
                         title: '简介',
@@ -181,10 +170,9 @@
                         align: 'center',
                         ellipsis: true,
                         render: (h, params) => {
-                            let index = params.index;
-                            let date = new Date(this.data[index].createdAt * 1000);
-                            return h('p', {
-                            }, date.format('yyyy-MM-dd hh:ii:ss'));
+                            let row = params.row;
+                            let date = new Date(row.createdAt * 1000);
+                            return h('p', {}, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -194,10 +182,9 @@
                         align: 'center',
                         ellipsis: true,
                         render: (h, params) => {
-                            let index = params.index;
-                            let date = new Date(this.data[index].updatedAt * 1000);
-                            return h('p', {
-                            }, date.format('yyyy-MM-dd hh:ii:ss'));
+                            let row = params.row;
+                            let date = new Date(row.updatedAt * 1000);
+                            return h('p', {}, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -220,6 +207,7 @@
                         width: 180,
                         align: 'center',
                         ellipsis: true,
+                        fixed: 'right',
                         render: (h, params) => {
                             return h('div', [
                                 h('Button', {
@@ -250,15 +238,15 @@
                                     on: {
                                         click: () => {
                                             this.updateModal = true;
-                                            let index = params.index;
-                                            let createdAt = new Date(this.data[index].createdAt * 1000);
-                                            let updatedAt = new Date(this.data[index].updatedAt * 1000);
+                                            let row = params.row;
+                                            let createdAt = new Date(row.createdAt * 1000);
+                                            let updatedAt = new Date(row.updatedAt * 1000);
                                             createdAt = createdAt.format('yyyy-MM-dd hh:ii:ss');
                                             updatedAt = updatedAt.format('yyyy-MM-dd hh:ii:ss');
-                                            this.updateForm.name = this.data[index].name;
-                                            this.updateForm.description = this.data[index].description;
-                                            this.updateForm.rule_name = this.data[index].ruleName;
-                                            this.updateForm.data = this.data[index].data;
+                                            this.updateForm.name = row.name;
+                                            this.updateForm.description = row.description;
+                                            this.updateForm.rule_name = row.ruleName;
+                                            this.updateForm.data = row.data;
                                             this.updateForm.created_at = createdAt;
                                             this.updateForm.updated_at = updatedAt;
                                         }
@@ -291,7 +279,6 @@
                         }
                     }
                 ],
-                searchSourceData: [],
                 data: [],
                 async: null,
                 permissions: null,
@@ -299,66 +286,51 @@
             };
         },
         watch: {
-            'searchForm.name': function (n, o) {
-                this.searchData()(n);
-            }
         },
         methods: {
-            searchData (time = 500) {
-                this.loading = true;
-                return _.debounce((n) => {
-                    if (n == null) {
-                        n = '';
-                    }
-                    let datas = [];
-                    this.searchSourceData.filter(function (data, k) {
-                        let isset = false;
-                        Object.keys(data).some(function (key) {
-                            if (key == 'name' || key == 'description') {
-                                if (!isset && (String(data[key]).toLowerCase().indexOf(n) > -1)) {
-                                    datas.push(data);
-                                    isset = true;
-                                }
-                            }
-                        });
-                    });
-                    this.data = datas;
-                    this.loading = false;
-                }, time);
-            },
-            visibleChange () {
+            visibleChange() {
                 this.updateFormError = null;
             },
-            update (name) {
+            update(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.updateData();
                     }
                 });
             },
-            remove (name) {
+            remove(name) {
                 this.deleteData(name);
             },
-            getListData (loading = true, timeout = 300) {
+            obj2arr(obj) {
+                obj = Object.values(obj);
+                for (let key  in obj) {
+                    obj[key]['_showChildren'] = true;
+                    if(obj[key]['children']) {
+                        obj[key]['children'] = this.obj2arr(obj[key]['children']);
+                    }
+                }
+                return obj;
+            },
+            getListData(loading = true, timeout = 300) {
                 clearTimeout(this.async);
                 if (loading == true) {
                     this.loading = true;
                 }
                 this.async = setTimeout(() => {
                     // 添加响应拦截器
-                    (new ajax()).send(this, '/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
+                    (new ajax()).send(this, '/account/auth-item/all-lists-with-level?page=' + this.page + '&per-page=' + this.pageSize, {
                         'type': 2
                     }).then((response) => {
                         var data = response.data;
-                        this.searchSourceData = data.data;
-                        this.searchData(1)(this.searchForm.name);
+                        data.data = this.obj2arr(data.data);
+                        this.data = data.data;
                         this.loading = false;
                     }).catch((error) => {
                         this.loading = false;
                     });
                 }, timeout);
             },
-            updateData () {
+            updateData() {
                 this.updateModalLoading = true;
                 this.async = setTimeout(() => {
                     (new ajax()).send(this, '/account/auth-item/update-permissions', {
@@ -386,7 +358,7 @@
                     });
                 }, 1000);
             },
-            deleteData (permissions) {
+            deleteData(permissions) {
                 (new ajax()).send(this, '/account/auth-item/remove-permissions', {
                     'name': permissions
                 }).then((response) => {
@@ -396,7 +368,7 @@
                 });
             }
         },
-        created () {
+        created() {
             this.getListData();
         }
     };
