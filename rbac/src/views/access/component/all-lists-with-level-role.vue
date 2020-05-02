@@ -93,8 +93,8 @@
                 })
             },
             async startFunction() {
-                this.dataFirst = await this.getAllPermissionsData();
                 this.permissionsFirst = await this.getAllPermissionsWithRoleData();
+                this.dataFirst = await this.getAllPermissionsData();
                 for (let key in this.dataFirst) {
                     this.$set(this.check, this.dataFirst[key].name, false);
                 }
