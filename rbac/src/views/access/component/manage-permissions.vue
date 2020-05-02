@@ -221,9 +221,9 @@
                                     on: {
                                         click: () => {
                                             this.allotModal = true;
-                                            let index = params.index;
-                                            this.permissions = this.data[index].name;
-                                            this.permissionsName = this.data[index].description;
+                                            let row = params.row;
+                                            this.permissions = row.name;
+                                            this.permissionsName = row.description;
                                         }
                                     }
                                 }, '权限'),
@@ -269,8 +269,8 @@
                                         },
                                         on: {
                                             'on-ok': () => {
-                                                let index = params.index;
-                                                this.remove(this.data[index].name);
+                                                let row = params.row;
+                                                this.remove(row.name);
                                             }
                                         }
                                     }, '删除')
