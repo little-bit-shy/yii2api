@@ -105,7 +105,7 @@
 
     export default {
         components: {captcha},
-        data() {
+        data () {
             return {
                 captcha: null,
                 /** 表单状态：1、允许登陆 2、登陆中 3、登陆成功 4、登陆失败 */
@@ -131,7 +131,7 @@
             };
         },
         methods: {
-            handleSubmit() {
+            handleSubmit () {
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         if (this.loginFormStatus !== 1) {
@@ -139,10 +139,10 @@
                         }
                         /** 修改登录表单状态 */
                         this.loginFormStatus = 2;
-                        (new ajax()).send(this,'/account/site/login', {
+                        (new ajax()).send(this, '/account/site/login', {
                             mobile: this.form.username,
                             password: this.form.password,
-                            verify_code: this.form.captcha,
+                            verify_code: this.form.captcha
                         }).then((response) => {
                             var data = response.data;
                             switch (data.success) {
@@ -158,7 +158,7 @@
                                     this.$store.commit('setAvator', data.data.head);
 
                                     // 获取权限数据
-                                    (new ajax()).send(this,'/account/site/all-permissions').then((response) => {
+                                    (new ajax()).send(this, '/account/site/all-permissions').then((response) => {
                                         var data = response.data;
                                         switch (data.success) {
                                             case true:
@@ -200,7 +200,7 @@
                 });
             }
         },
-        created() {
+        created () {
         }
     };
 </script>

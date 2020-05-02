@@ -206,7 +206,7 @@
     import _ from 'lodash';
 
     export default {
-        components: {allListsWithLevel,allRoleWithRole},
+        components: {allListsWithLevel, allRoleWithRole},
         names: 'manageRoles',
         data () {
             return {
@@ -260,7 +260,7 @@
                 roleFormError: null,
                 roleFormRule: {},
                 searchForm: {
-                    name: null,
+                    name: null
                 },
                 columns: [
                     {
@@ -289,9 +289,9 @@
                         ellipsis: true,
                         render: (h, params) => {
                             let index = params.index;
-                            let date = new Date(this.data[index].createdAt*1000);
+                            let date = new Date(this.data[index].createdAt * 1000);
                             return h('p', {
-                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                            }, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -302,9 +302,9 @@
                         ellipsis: true,
                         render: (h, params) => {
                             let index = params.index;
-                            let date = new Date(this.data[index].updatedAt*1000);
+                            let date = new Date(this.data[index].updatedAt * 1000);
                             return h('p', {
-                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                            }, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -407,7 +407,7 @@
                 data: [],
                 async: null,
                 role: null,
-                roleName: null,
+                roleName: null
             };
         },
         watch: {
@@ -418,25 +418,25 @@
         methods: {
             searchData (time = 500) {
                 this.loading = true;
-                return _.debounce((n)=> {
-                    if (n==null) {
-                        n = "";
+                return _.debounce((n) => {
+                    if (n == null) {
+                        n = '';
                     }
                     let datas = [];
-                    this.searchSourceData.filter(function (data,k) {
-                        let isset = false
+                    this.searchSourceData.filter(function (data, k) {
+                        let isset = false;
                         Object.keys(data).some(function (key) {
-                            if (key == "name" || key == "description") {
+                            if (key == 'name' || key == 'description') {
                                 if (!isset && (String(data[key]).toLowerCase().indexOf(n) > -1)) {
                                     datas.push(data);
                                     isset = true;
                                 }
                             }
                         });
-                    })
+                    });
                     this.data = datas;
                     this.loading = false;
-                },time);
+                }, time);
             },
             visibleChange () {
                 this.updateFormError = null;
@@ -472,8 +472,8 @@
                     this.loading = true;
                 }
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
-                        'type': 1,
+                    (new ajax()).send(this, '/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
+                        'type': 1
                     }).then((response) => {
                         var data = response.data;
                         this.searchSourceData = data.data;
@@ -487,7 +487,7 @@
             updateData () {
                 this.updateModalLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/update-role', {
+                    (new ajax()).send(this, '/account/auth-item/update-role', {
                         'name': this.updateForm.name,
                         'description': this.updateForm.description,
                         'rule_name': this.updateForm.rule_name === '' ? null : this.updateForm.rule_name,
@@ -515,7 +515,7 @@
             addData (name) {
                 this.addModalLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/add-role', {
+                    (new ajax()).send(this, '/account/auth-item/add-role', {
                         'name': this.addForm.name,
                         'description': this.addForm.description,
                         'rule_name': this.addForm.rule_name === '' ? null : this.addForm.rule_name,
@@ -542,7 +542,7 @@
                 }, 1000);
             },
             deleteData (permissions) {
-                (new ajax()).send(this,'/account/auth-item/remove-role', {
+                (new ajax()).send(this, '/account/auth-item/remove-role', {
                     'name': permissions
                 }).then((response) => {
                     var data = response.data;

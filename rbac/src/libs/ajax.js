@@ -4,21 +4,21 @@
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import config from '../../build/config';
-import notice from "./notice";
-import user from "../store/modules/user";
+import notice from './notice';
+import user from '../store/modules/user';
 
 let thisApp = null;
 
 class ajax {
-    constructor() {
+    constructor () {
     }
 
     // 获取业务token
-    getAccessToken() {
+    getAccessToken () {
         return Cookies.get('access_token');
     }
 
-    success(response) {
+    success (response) {
         // 对响应数据做点什么
         var data = response.data;
         switch (data.success) {
@@ -33,7 +33,7 @@ class ajax {
         return response;
     }
 
-    successSwitchCode(response) {
+    successSwitchCode (response) {
         // 对响应数据做点什么
         var data = response.data;
         switch (data.success) {
@@ -50,13 +50,13 @@ class ajax {
         return response;
     }
 
-    error(error) {
+    error (error) {
         // 对响应错误做点什么
         notice.error(error.message);
         return Promise.reject(error);
     }
 
-    send(app, path, param = {}, type = 'post', interceptorsUse = true) {
+    send (app, path, param = {}, type = 'post', interceptorsUse = true) {
         thisApp = app;
         let obj = axios.create({
             baseURL: config.ajaxUrl,

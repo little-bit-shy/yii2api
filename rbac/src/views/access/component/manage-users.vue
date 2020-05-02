@@ -210,7 +210,7 @@
                 data: [],
                 async: null,
                 userId: null,
-                userName: null,
+                userName: null
             };
         },
         watch: {
@@ -245,7 +245,7 @@
                     this.loading = true;
                 }
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/user-lists?page=' + this.page + '&per-page=' + this.pageSize, {}).then((response) => {
+                    (new ajax()).send(this, '/account/auth-item/user-lists?page=' + this.page + '&per-page=' + this.pageSize, {}).then((response) => {
                         var data = response.data;
                         this.data = data.data.items;
                         this.pageTotal = +data.data._meta.totalCount;
@@ -258,7 +258,7 @@
             addData (name) {
                 this.addModalLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/add-user', {
+                    (new ajax()).send(this, '/account/auth-item/add-user', {
                         'account': this.addForm.username,
                         'mobile': this.addForm.mobile,
                         'password': this.addForm.password

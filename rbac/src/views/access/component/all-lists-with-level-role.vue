@@ -12,7 +12,6 @@
                 <Checkbox class="check" v-model="check[item.name]" @on-change="onChange($event, item.name)">
                     {{ item.description|ellipsis(8) }}
                 </Checkbox>
-
                 <allListsWithLevel v-if="item.children"
                                    :roleName="roleName"
                                    :permissions="permissionsFirst || permissions"
@@ -94,9 +93,8 @@
                 })
             },
             async startFunction() {
-                this.permissionsFirst = await this.getAllPermissionsWithRoleData();
                 this.dataFirst = await this.getAllPermissionsData();
-
+                this.permissionsFirst = await this.getAllPermissionsWithRoleData();
                 for (let key in this.dataFirst) {
                     this.$set(this.check, this.dataFirst[key].name, false);
                 }

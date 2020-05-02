@@ -81,17 +81,26 @@ export const otherRouter = {
     component: Main,
     children: [
         {
-            path: 'home', title: {i18n: 'home'}, name: 'home_index', component: resolve => {
+            path: 'home',
+            title: {i18n: 'home'},
+            name: 'home_index',
+            component: resolve => {
                 require(['@/views/home/home.vue'], resolve);
             }
         },
         {
-            path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: resolve => {
+            path: 'ownspace',
+            title: '个人中心',
+            name: 'ownspace_index',
+            component: resolve => {
                 require(['@/views/own-space/own-space.vue'], resolve);
             }
         },
         {
-            path: 'message', title: '消息中心', name: 'message_index', component: resolve => {
+            path: 'message',
+            title: '消息中心',
+            name: 'message_index',
+            component: resolve => {
                 require(['@/views/message/message.vue'], resolve);
             }
         }

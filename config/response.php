@@ -13,7 +13,7 @@ return [
         /** @var \yii\web\Response $response */
         $response = $event->sender;
         $data = $response->data;
-        if ($response->getIsEmpty() || is_string($data) || empty($data)) {
+        if ($response->getIsEmpty() || is_string($data) || $data === null) {
             return;
         }
         // 处理code、message

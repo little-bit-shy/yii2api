@@ -60,7 +60,7 @@
             getMockData () {
                 let mockData = [];
                 // 所有项目目录获取
-                (new ajax()).send(this,'/account/auth-item/project-directory', {}).then((response) => {
+                (new ajax()).send(this, '/account/auth-item/project-directory', {}).then((response) => {
                     var data = response.data;
                     for (let directory in data.data) {
                         mockData.push({
@@ -71,8 +71,8 @@
                         });
                     }
                 }).catch((error) => {
-                }).finally(()=>{
-                   ++this.request_end
+                }).finally(() => {
+                    ++this.request_end;
                 });
 
                 return mockData;
@@ -80,7 +80,7 @@
             getTargetKeys () {
                 let targetKeys = [];
                 // 获取所有权限
-                (new ajax()).send(this,'/account/auth-item/index', {
+                (new ajax()).send(this, '/account/auth-item/index', {
                     'type': 2
                 }).then((response) => {
                     var data = response.data;
@@ -88,8 +88,8 @@
                         targetKeys.push(data.data[directory].name);
                     }
                 }).catch((error) => {
-                }).finally(()=>{
-                    ++this.request_end
+                }).finally(() => {
+                    ++this.request_end;
                 });
 
                 return targetKeys;
@@ -102,7 +102,7 @@
                         // 删除操作
                         for (let key in moveKeys) {
                             let permissions = moveKeys[key];
-                            (new ajax()).send(this,'/account/auth-item/remove-permissions', {
+                            (new ajax()).send(this, '/account/auth-item/remove-permissions', {
                                 'name': permissions
                             }).then((response) => {
                                 this.loading = false;
@@ -117,7 +117,7 @@
                         // 添加操作
                         for (let key in moveKeys) {
                             let permissions = moveKeys[key];
-                            (new ajax()).send(this,'/account/auth-item/add-permissions', {
+                            (new ajax()).send(this, '/account/auth-item/add-permissions', {
                                 'name': permissions
                             }).then((response) => {
                                 this.loading = false;

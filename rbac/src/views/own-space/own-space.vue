@@ -66,7 +66,7 @@
 
     export default {
         name: 'ownspace_index',
-        data() {
+        data () {
             const valideRePassword = (rule, value, callback) => {
                 if (value !== this.editPasswordForm.newPass) {
                     callback(new Error('两次输入密码不一致'));
@@ -97,37 +97,37 @@
                         {required: true, message: '请再次输入新密码', trigger: 'blur'},
                         {validator: valideRePassword, trigger: 'blur'}
                     ]
-                },
+                }
             };
         },
         methods: {
-            showEditPassword() {
+            showEditPassword () {
                 this.editPasswordModal = true;
             },
-            cancelEditPass() {
+            cancelEditPass () {
                 this.editPasswordModal = false;
             },
-            saveEditPass() {
+            saveEditPass () {
                 this.$refs['editPasswordForm'].validate((valid) => {
                     if (valid) {
                         this.editPass();
                     }
                 });
             },
-            init() {
-                (new ajax()).send(this,'/account/site/tenant-info', {}, 'get', false).then((response) => {
+            init () {
+                (new ajax()).send(this, '/account/site/tenant-info', {}, 'get', false).then((response) => {
                     var data = response.data;
-                switch (data.success) {
-                    case true:
-                        this.user = data.data;
-                        break;
-                }
-            });
+                    switch (data.success) {
+                        case true:
+                            this.user = data.data;
+                            break;
+                    }
+                });
             },
-            editPass() {
+            editPass () {
                 this.savePassLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/site/reset-psw', {
+                    (new ajax()).send(this, '/account/site/reset-psw', {
                         'password_old': this.editPasswordForm.oldPass,
                         'password_new': this.editPasswordForm.newPass
                     }, 'post', false).then((response) => {
@@ -148,9 +148,9 @@
                     }).finally(function (callee) {
                     });
                 }, 1000);
-            },
+            }
         },
-        mounted() {
+        mounted () {
             this.init();
         }
     };

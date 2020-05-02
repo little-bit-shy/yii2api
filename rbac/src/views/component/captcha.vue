@@ -28,11 +28,11 @@
         components: {},
         names: 'captcha',
         props: ['reload'],
-        data() {
+        data () {
             return {
                 loading: true,
                 img: '',
-                data: [],
+                data: []
             };
         },
         watch: {
@@ -41,17 +41,17 @@
             }
         },
         methods: {
-            getCaptcha() {
+            getCaptcha () {
                 this.loading = true;
-                (new ajax()).send(this,'/account/site/captcha?refresh=1').then((response) => {
+                (new ajax()).send(this, '/account/site/captcha?refresh=1').then((response) => {
                     this.img = config.ajaxUrl + response.data.data.url;
                     this.loading = false;
                 }).catch((error) => {
                     this.loading = false;
                 });
-            },
+            }
         },
-        created() {
+        created () {
             this.getCaptcha();
         }
     };

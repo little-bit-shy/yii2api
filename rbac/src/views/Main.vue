@@ -121,7 +121,7 @@
         },
         methods: {
             init () {
-                (new ajax()).send(this,'/account/site/tenant-info', {}, 'get', false).then((response) => {
+                (new ajax()).send(this, '/account/site/tenant-info', {}, 'get', false).then((response) => {
                     var data = response.data;
                     switch (data.success) {
                         case true:

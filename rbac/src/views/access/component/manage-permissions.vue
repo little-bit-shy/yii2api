@@ -159,7 +159,7 @@
                 allotFormError: null,
                 allotFormRule: {},
                 searchForm: {
-                    name: null,
+                    name: null
                 },
                 columns: [
                     {
@@ -182,9 +182,9 @@
                         ellipsis: true,
                         render: (h, params) => {
                             let index = params.index;
-                            let date = new Date(this.data[index].createdAt*1000);
+                            let date = new Date(this.data[index].createdAt * 1000);
                             return h('p', {
-                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                            }, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -195,9 +195,9 @@
                         ellipsis: true,
                         render: (h, params) => {
                             let index = params.index;
-                            let date = new Date(this.data[index].updatedAt*1000);
+                            let date = new Date(this.data[index].updatedAt * 1000);
                             return h('p', {
-                            },date.format("yyyy-MM-dd hh:ii:ss"));
+                            }, date.format('yyyy-MM-dd hh:ii:ss'));
                         }
                     },
                     {
@@ -251,10 +251,10 @@
                                         click: () => {
                                             this.updateModal = true;
                                             let index = params.index;
-                                            let createdAt = new Date(this.data[index].createdAt*1000);
-                                            let updatedAt = new Date(this.data[index].updatedAt*1000);
-                                            createdAt = createdAt.format("yyyy-MM-dd hh:ii:ss");
-                                            updatedAt = updatedAt.format("yyyy-MM-dd hh:ii:ss");
+                                            let createdAt = new Date(this.data[index].createdAt * 1000);
+                                            let updatedAt = new Date(this.data[index].updatedAt * 1000);
+                                            createdAt = createdAt.format('yyyy-MM-dd hh:ii:ss');
+                                            updatedAt = updatedAt.format('yyyy-MM-dd hh:ii:ss');
                                             this.updateForm.name = this.data[index].name;
                                             this.updateForm.description = this.data[index].description;
                                             this.updateForm.rule_name = this.data[index].ruleName;
@@ -295,7 +295,7 @@
                 data: [],
                 async: null,
                 permissions: null,
-                permissionsName: null,
+                permissionsName: null
             };
         },
         watch: {
@@ -304,27 +304,27 @@
             }
         },
         methods: {
-            searchData (time=500) {
+            searchData (time = 500) {
                 this.loading = true;
-                return _.debounce((n)=> {
-                    if(n == null){
-                        n = "";
+                return _.debounce((n) => {
+                    if (n == null) {
+                        n = '';
                     }
                     let datas = [];
-                    this.searchSourceData.filter(function (data,k) {
-                        let isset = false
+                    this.searchSourceData.filter(function (data, k) {
+                        let isset = false;
                         Object.keys(data).some(function (key) {
-                            if (key == "name" || key == "description") {
+                            if (key == 'name' || key == 'description') {
                                 if (!isset && (String(data[key]).toLowerCase().indexOf(n) > -1)) {
                                     datas.push(data);
                                     isset = true;
-                                    }
                                 }
-                            });
-                    })
+                            }
+                        });
+                    });
                     this.data = datas;
                     this.loading = false;
-                },time);
+                }, time);
             },
             visibleChange () {
                 this.updateFormError = null;
@@ -346,7 +346,7 @@
                 }
                 this.async = setTimeout(() => {
                     // 添加响应拦截器
-                    (new ajax()).send(this,'/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
+                    (new ajax()).send(this, '/account/auth-item/index?page=' + this.page + '&per-page=' + this.pageSize, {
                         'type': 2
                     }).then((response) => {
                         var data = response.data;
@@ -361,7 +361,7 @@
             updateData () {
                 this.updateModalLoading = true;
                 this.async = setTimeout(() => {
-                    (new ajax()).send(this,'/account/auth-item/update-permissions', {
+                    (new ajax()).send(this, '/account/auth-item/update-permissions', {
                         'name': this.updateForm.name,
                         'description': this.updateForm.description,
                         'rule_name': this.updateForm.rule_name === '' ? null : this.updateForm.rule_name,
@@ -387,7 +387,7 @@
                 }, 1000);
             },
             deleteData (permissions) {
-                (new ajax()).send(this,'/account/auth-item/remove-permissions', {
+                (new ajax()).send(this, '/account/auth-item/remove-permissions', {
                     'name': permissions
                 }).then((response) => {
                     this.getListData(false, 1);
