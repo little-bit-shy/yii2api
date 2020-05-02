@@ -13,12 +13,7 @@ return [
         /** @var \yii\web\Response $response */
         $response = $event->sender;
         $data = $response->data;
-        // 预飞
-        if(Yii::$app->getRequest()->getIsOptions()){
-            $response->setStatusCode(\Codeception\Util\HttpCode::NO_CONTENT);
-            return;
-        }
-        if ($response->getIsEmpty() || is_string($data)) {
+        if ($response->getIsEmpty() || is_string($data) || empty($data)) {
             return;
         }
         // 处理code、message

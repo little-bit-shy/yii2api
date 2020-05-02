@@ -61,7 +61,7 @@ class ajax {
         let obj = axios.create({
             baseURL: config.ajaxUrl,
             timeout: 30000,
-            withCredentials: false
+            withCredentials: true
         });
         obj.interceptors.request.use((config) => {
             let params = {
