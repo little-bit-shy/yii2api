@@ -61,9 +61,8 @@ class ajax {
         let obj = axios.create({
             baseURL: config.ajaxUrl,
             timeout: 30000,
+            withCredentials: false
         });
-        // 传输cookie
-        obj.defaults.withCredentials = true;
         obj.interceptors.request.use((config) => {
             let params = {
                 'access_token': this.getAccessToken()

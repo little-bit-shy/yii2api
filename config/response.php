@@ -13,6 +13,11 @@ return [
         /** @var \yii\web\Response $response */
         $response = $event->sender;
         $data = $response->data;
+        // 预飞
+        if(Yii::$app->getRequest()->getIsOptions()){
+            $response->setStatusCode(\Codeception\Util\HttpCode::NO_CONTENT);
+            return;
+        }
         if ($response->getIsEmpty() || is_string($data)) {
             return;
         }
@@ -58,6 +63,6 @@ return [
         }
 
         // 放在后面，避免污染IsSuccessfulz
-        $response->setStatusCode(200);
+        $response->setStatusCode(\Codeception\Util\HttpCode::OK);
     }
 ];
