@@ -149,12 +149,17 @@ yii2-rest
 │  │  ├─Module.php
 │  │  └─
 │  └─
+├─# 权限web管理系统，使用前记得cnpm install
+├─rbac
+│ ├─# 记得修改配置文件
+│ ├─build 配置文件
+│ └─
 ├─# 数据库版本控制目录
 ├─database
-│ ├─# yii2_api库数据
-│ ├─yii2_api.sql
-│ ├─# yii2_api库权限数据
-│ ├─yii2_api_rbac.php
+│ ├─# 常规初始化数据
+│ ├─yii2api.sql
+│ ├─# 权限初始化数据
+│ ├─yii2api_rbac.php
 │ └─
 ├─# 项目入口目录
 ├─web
@@ -198,3 +203,14 @@ server {
     }
 }
 ```
+
+#### 权限web管理系统效果展示
+初始化账号密码 15918793994/123456
+
+![img](/help/1.jpg)
+
+![img](/help/2.jpg)
+
+![img](/help/3.jpg)
+
+![img](/help/4.jpg)
