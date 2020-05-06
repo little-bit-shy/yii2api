@@ -152,7 +152,7 @@ yii2-rest
 ├─# 权限web管理系统，使用前记得cnpm install
 ├─rbac
 │ ├─# 记得修改配置文件
-│ ├─build 配置文件
+│ ├─build
 │ └─
 ├─# 数据库版本控制目录
 ├─database
