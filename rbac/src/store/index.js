@@ -9,7 +9,6 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         //
-        permissions: 0
     },
     mutations: {
         //

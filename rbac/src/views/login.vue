@@ -162,10 +162,11 @@
                                         var data = response.data;
                                         switch (data.success) {
                                             case true:
+                                                let permissions = {};
                                                 for (var key in data.data) {
-                                                    Cookies.set(key, true);
+                                                    permissions[key] = true;
                                                 }
-
+                                                Cookies.set("permissions", permissions);
                                                 setTimeout(() => {
                                                     this.loginFormStatus = 3;
                                                     // 修改登录成功进度条

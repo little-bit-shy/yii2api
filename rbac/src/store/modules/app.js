@@ -68,7 +68,7 @@ const app = {
                         let childrenArr = [];
                         childrenArr = item.children.filter(child => {
                             if (child.access !== undefined) {
-                                if (Util.showThisRoute(child.access, accessCode)) {
+                                    if (Util.showThisRoute(child.access, accessCode)) {
                                     return child;
                                 }
                             } else {

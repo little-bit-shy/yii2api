@@ -17,7 +17,7 @@
 
         <Row>
             <Col span="24">
-            <Table border row-key="name" size="small" :loading="loading" :columns="columns" :data="data" height="700"></Table>
+            <Table border row-key="name" size="small" :loading="loading" :columns="columns" :data="data"></Table>
             <Modal
                     class-name="vertical-center-modal"
                     title="修改数据"

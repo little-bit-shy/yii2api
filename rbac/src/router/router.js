@@ -1,12 +1,20 @@
 import Main from '@/views/Main.vue';
 import Cookies from 'js-cookie';
+import Util from '../libs/util';
 
 // 判断是否有权限
 const access = (permissions) => {
-    let access;
+    let access = undefined;
     for (let key in permissions) {
-        if (!Cookies.get(permissions[key])) {
-            return true;
+        let per = Util.getPermissions();
+        let permission = permissions[key];
+        if(per != undefined) {
+            per = JSON.parse(per);
+            if (!per[permission]) {
+                access = true;
+            }
+        }else{
+            access = true;
         }
     }
     return access;

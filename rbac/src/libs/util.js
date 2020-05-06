@@ -14,6 +14,10 @@ util.getAccessToken = function () {
     return Cookies.get('access_token');
 };
 
+util.getPermissions = function () {
+    return Cookies.get('permissions');
+};
+
 /**
  *对Date的扩展，将 Date 转化为指定格式的String
  *月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
