@@ -131,4 +131,42 @@ class Controller extends \yii\rest\Controller
         $actions = parent::actions();
         return $actions;
     }
+
+    /**
+     * 获取头部数据参数
+     * @return array
+     */
+    public function getQueryParams()
+    {
+        return Yii::$app->request->getQueryParams();
+    }
+
+    /**
+     * 获取包体数据参数
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getBodyParams()
+    {
+        return Yii::$app->request->getBodyParams();
+    }
+
+    /**
+     * 获取所有数据参数
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getParams()
+    {
+        return ArrayHelper::merge(Yii::$app->request->getBodyParams(), Yii::$app->request->getQueryParams());
+    }
+
+    /**
+     * 获取包体源数据
+     * @return string
+     */
+    public function getRawBody()
+    {
+        return Yii::$app->request->getRawBody();
+    }
 }

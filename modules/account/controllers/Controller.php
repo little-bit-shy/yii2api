@@ -32,41 +32,4 @@ class Controller extends \app\controllers\Controller
      * @apiParam (params) {Int} [page=1]  页码，例如：1，列表数据可用，拼接在链接后使用
      * @apiParam (params) {Int} [per-page=20]  单页最大显示数，例如：20，列表数据可用，拼接在链接后使用
      */
-
-    /**
-     * 获取头部数据参数
-     * @return array
-     */
-    public function getQueryParams()
-    {
-        return Yii::$app->request->getQueryParams();
-    }
-
-    /**
-     * 获取包体数据参数
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getBodyParams()
-    {
-        return Yii::$app->request->getBodyParams();
-    }
-
-    /**
-     * 获取所有数据参数
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getParams()
-    {
-        return ArrayHelper::merge(Yii::$app->request->getBodyParams(), Yii::$app->request->getQueryParams());
-    }
-
-    /**
-     * 获取包体源数据
-     * @return string
-     */
-    public function getRawBody(){
-        return Yii::$app->request->getRawBody();
-    }
 }
