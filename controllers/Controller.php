@@ -106,7 +106,7 @@ class Controller extends \yii\rest\Controller
                         // 权限验证
                         $uniqueId = '/' . $action->getUniqueId();
                         $user = Yii::$app->getUser();
-                        return $user->can($uniqueId);
+                        return $user->can($uniqueId, $this->getParams());
                     }
                 ],
             ],
