@@ -4,12 +4,11 @@
   "description": "a management bases on iview",
   "main": "index.js",
   "scripts": {
-    "init": "webpack --progress --config build/webpack.dev.config.js",
-    "dev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --config build/webpack.dev.config.js",
+    "init": "webpack --progress --watch --config build/webpack.dev.config.js",
+    "dev": "webpack-dev-server --content-base ./dist --open --inline --hot --compress --config build/webpack.dev.config.js",
     "build": "webpack --progress --hide-modules --config build/webpack.prod.config.js",
     "lint": "eslint --fix --ext .js,.vue src",
-    "test": "npm run lint",
-    "server": "live-server ./"
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",

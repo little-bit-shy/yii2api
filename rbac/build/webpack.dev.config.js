@@ -17,22 +17,31 @@ module.exports = merge(webpackBaseConfig, {
                 changeOrigin: true,
                 pathRewrite: {'^/api': '/'}
             }
-        }
+        },
+        contentBase: "/",
+        port: 80
     },
     devtool: '#source-map',
     output: {
-        publicPath: '/dist/',
+        publicPath: '/',
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
-    module: {
-        rules: [
-            {
-                test: /\.ejs$/,
-                loader: 'html-loader'
-            }
-        ]
-    },
+    //module: {
+    //    rules: [
+    //        {
+    //            test: /\.ejs$/,
+    //            use: [
+    //                {
+    //                    loader: 'html-loader', // 使用 html-loader 处理图片资源的引用
+    //                    options: {
+    //                        attrs: ['img:src', 'img:data-src']
+    //                    }
+    //                }
+    //            ]
+    //        }
+    //    ]
+    //},
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': '"development"'
@@ -47,7 +56,8 @@ module.exports = merge(webpackBaseConfig, {
         }),
         new HtmlWebpackPlugin({
             title: 'iView admin v' + package.version,
-            filename: '../index.html',
+            favicon: './favicon.ico',
+            filename: './index.html',
             template: './src/template/index.ejs',
             inject: false
         }),
