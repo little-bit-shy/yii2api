@@ -38,7 +38,7 @@ yii2-rest
 │  ├─# 项目别名，用于类自动加载（yii机制实现）
 │  ├─aliases.php
 │  ├─# 权限控制配置
-│  ├─autjManager.php
+│  ├─authManager.php
 │  ├─# 缓存配置
 │  ├─cache.php
 │  ├─# 零散缓存Key配置

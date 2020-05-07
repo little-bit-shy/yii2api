@@ -6,8 +6,6 @@ namespace app\models;
 use app\components\ArrayHelper;
 use app\components\StringHelper;
 use app\controllers\behaviors\Serializer;
-use edu\models\campus\GoodsSku;
-use yii\db\ActiveRecordInterface;
 use yii\db\Expression;
 
 class ActiveQuery extends \yii\db\ActiveQuery

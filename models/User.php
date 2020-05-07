@@ -5,11 +5,9 @@ namespace app\models;
 use app\controllers\behaviors\QueryParamAuth;
 use app\models\redis\AccessToken;
 use app\models\redis\RateLimit;
-use edu\models\resources\Resources;
 use Yii;
 use yii\caching\TagDependency;
 use yii\filters\RateLimitInterface;
-use yii\web\HttpException;
 use yii\web\IdentityInterface;
 use yii\web\UnauthorizedHttpException;
 

@@ -9,7 +9,6 @@
 
 namespace account\controllers;
 
-use app\components\ArrayHelper;
 use \Yii;
 
 /**

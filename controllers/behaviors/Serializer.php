@@ -9,7 +9,6 @@ namespace app\controllers\behaviors;
 
 use Yii;
 use yii\base\Arrayable;
-use yii\base\Exception;
 use yii\base\Model;
 use yii\data\DataProviderInterface;
 use yii\data\Pagination;
