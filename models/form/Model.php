@@ -9,6 +9,7 @@
 namespace app\models\form;
 
 use Yii;
+use yii\web\Response;
 
 class Model extends \yii\base\Model
 {
@@ -23,7 +24,8 @@ class Model extends \yii\base\Model
             $firstErrors = $this->getFirstErrors();
             $key = key($firstErrors);
             $value = $firstErrors[$key];
-            if (Yii::$app->getResponse()->acceptMimeType == 'application/html') {
+            if (YIi::$app->getResponse() instanceof Response &&
+                Yii::$app->getResponse()->acceptMimeType == 'application/html') {
                 return $value;
             }
             return $key . '=' . $value;
