@@ -20,8 +20,6 @@ yii2-rest
 │  ├─AreaValidator.php
 │  ├─# 数组辅助函数扩展
 │  ├─ArrayHelper.php
-│  ├─# 短信发送（知名平台都支持）
-│  ├─EasySms.php
 │  ├─# 辅助函数
 │  ├─Helper.php
 │  ├─# 模糊查询数验证器
@@ -93,6 +91,8 @@ yii2-rest
 |  ├─Wxapp.php
 |  ├─# 微信支付工具类
 |  ├─Wxp.php
+│  ├─# 短信发送（知名平台都支持）
+│  ├─EasySms.php
 │  └─
 ├─# 模型目录
 ├─models
