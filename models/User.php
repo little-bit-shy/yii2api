@@ -69,9 +69,13 @@ class User extends ActiveRecord implements IdentityInterface, RateLimitInterface
         }
         $tenant_id = $accessToken['tenant_id'];
         // 获取数据库对应数据
-        $user = ActiveRecord::getDb()->cache(function ($db) use ($tenant_id) {
-            return self::findIdentity($tenant_id);
-        }, User::$dataTimeOut, new TagDependency(['tags' => [User::getUserDataTag($tenant_id)]]));
+        $query = User::find();
+        // 缓存依赖
+        $query->cache(true, new TagDependency(['tags' => [User::getUserDataTag($tenant_id)]]));
+        $query->andWhere([
+            "tenant_id" => $tenant_id
+        ]);
+        $user = $query->one();
         return $user;
     }
 

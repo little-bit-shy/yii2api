@@ -9,7 +9,6 @@
 namespace account\form\rbac;
 
 use account\form\Model;
-use account\models\ActiveRecord;
 use account\models\User;
 use yii\caching\TagDependency;
 use yii\data\ArrayDataProvider;
@@ -65,20 +64,20 @@ class AuthItemUserListForm extends Model
      */
     public static function lists($param)
     {
-        return ActiveRecord::getDb()->cache(function ($db) {
-            $query = User::find();
-            // 结果数据返回
-            $pagination = new Pagination([
-                'defaultPageSize' => 20,
-                'totalCount' => $query->count()
-            ]);
-            $data = $query->offset($pagination->getOffset())
-                ->limit($pagination->getLimit())
-                ->all();
-            return new ArrayDataProvider([
-                'models' => $data,
-                'Pagination' => $pagination,
-            ]);
-        }, User::$dataTimeOut, new TagDependency(['tags' => [User::getAllDataTag()]]));
+        $query = User::find();
+        // 缓存依赖
+        $query->cache(true, new TagDependency(['tags' => [User::getAllDataTag()]]));
+        // 结果数据返回
+        $pagination = new Pagination([
+            'defaultPageSize' => 20,
+            'totalCount' => $query->count()
+        ]);
+        $data = $query->offset($pagination->getOffset())
+            ->limit($pagination->getLimit())
+            ->all();
+        return new ArrayDataProvider([
+            'models' => $data,
+            'Pagination' => $pagination,
+        ]);
     }
 }

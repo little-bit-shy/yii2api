@@ -7,6 +7,7 @@ use app\components\ArrayHelper;
 use Yii;
 use yii\caching\TagDependency;
 use yii\db\Exception;
+use yii\db\Query;
 use yii\helpers\StringHelper;
 
 class ActiveRecord extends \yii\db\ActiveRecord
@@ -28,7 +29,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     /**
      * 替换 ActiveQuery
-     * @return object
+     * @return Query
      * @throws \yii\base\InvalidConfigException
      */
     public static function find()

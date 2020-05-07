@@ -10,6 +10,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'accountCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
@@ -22,6 +23,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'rbacCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
@@ -37,6 +39,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'accountCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
@@ -49,6 +52,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'rbacCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
@@ -64,6 +68,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'accountCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
@@ -76,6 +81,7 @@ if (YII_ENV_PROD) {
             'charset' => 'utf8',
             'tablePrefix' => 'y_',
             'queryCache' => 'rbacCache',
+            'queryCacheDuration' => 3600,
             'attributes'  => [
                 PDO::ATTR_STRINGIFY_FETCHES => false,
             ]
